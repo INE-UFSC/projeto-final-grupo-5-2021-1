@@ -19,22 +19,26 @@ class ControladorNivel(pygame.sprite.Sprite):
         tela.janela.blit(fim_jogo, (tela.largura/4, tela.altura/2))
 
         morreu = True
+        self.__fim_jogo_view.rodar()
+        pygame.display.update()
 
         while morreu:
-            pygame.display.update()
+            if self.__fim_jogo_view.rodar() == False:
+                morreu = False
+
             for event in pygame.event.get():
-                if event.type == pygame.MOUSEBUTTONDOWN:
-                    morreu = False
                 if event.type == pygame.QUIT:
                     sys.exit()
 
     def pausar(self):
-        self.is_pausado = True
+        pausado = True
+        self.__view_pausa.rodar()
+        pygame.display.update()
 
-        while self.is_pausado:
+        while pausado:
+            if self.__view_pausa.rodar() == False:
+                pausado = False
+
             for event in pygame.event.get():
-                if event.type == pygame.KEYDOWN:
-                    if event.key == pygame.K_p:
-                            self.is_pausado = False
                 if event.type == pygame.QUIT:
                     sys.exit()
