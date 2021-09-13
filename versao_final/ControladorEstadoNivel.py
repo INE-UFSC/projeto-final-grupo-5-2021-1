@@ -3,20 +3,24 @@ from JogadorNave import Jogador
 import pygame
 from pygame.locals import *
 import sys
+from FimJogoView import FimJogoView
+from PausaView import PausaView
 
 
-class ControladorNivel(pygame.sprite.Sprite):
+class ControladorEstadoNivel(pygame.sprite.Sprite):
     def __init__(self):
         super().__init__()
+        self.__fim_jogo_view = FimJogoView()
+        self.__view_pausa = PausaView()
 
     def fim_de_jogo(self, jogador: Jogador, tela: TelaJogo):
         if isinstance(jogador, Jogador) and isinstance(tela, TelaJogo):
             jogador.vida = 100
-            jogador.rect.center = (tela.largura/2, tela.altura - 100)
-        
-        fonte_letreiros = pygame.font.SysFont('comicssans',100)
-        fim_jogo = fonte_letreiros.render("Fim de jogo", True, (255,255,255))
-        tela.janela.blit(fim_jogo, (tela.largura/4, tela.altura/2))
+            jogador.rect.center = (tela.largura / 2, tela.altura - 100)
+
+        fonte_letreiros = pygame.font.SysFont('comicssans', 100)
+        fim_jogo = fonte_letreiros.render("Fim de jogo", True, (255, 255, 255))
+        tela.janela.blit(fim_jogo, (tela.largura / 4, tela.altura / 2))
 
         morreu = True
         self.__fim_jogo_view.rodar()
