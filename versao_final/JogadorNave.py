@@ -1,5 +1,6 @@
 import pygame
 from Tiro import Tiro
+from VariaveisDao import VariaveisDAO
 from TelaJogo import TelaJogo
 from Sprites import *
 
@@ -7,23 +8,23 @@ from Sprites import *
 class Jogador(pygame.sprite.Sprite):
     def __init__(self):
         super().__init__()
+        self.__variaveis = VariaveisDAO()
         self.__posicao = (TelaJogo().largura/2, TelaJogo().altura)
-        self.image = pygame.image.load('Ship_Player_PNG_01.png')
+        self.image = pygame.transform.scale(pygame.image.load('Ship_Player_PNG_01.png'), (60,60))
+        self.mask = pygame.mask.from_surface(self.image)
         self.rect = self.image.get_rect(midbottom = self.__posicao)
-        self.__velocidade = 5
+        self.__velocidade = self.__variaveis.get('velocidade')
         self.__limite_x = TelaJogo().largura
         self.__limite_y = TelaJogo().altura
         self.__tiro_pronto = True
         self.__tiro_temporizador = 0
         self.__cooldown_tiro = 600
         self.tiros = Sprites().tiros
-        self.__vida = 100
-        self.__dano = 25
-        self.__meteoros_destruidos = 0
+        self.__vida = self.__variaveis.get('vida')
+        self.__dano = self.__variaveis.get('dano')
+        self.__meteoros_destruidos = []
         self.__naves_destruidas = 0
         self.__escudo = 0
-        self.__valor_meteoro = 0
-        self.__valor_nave_inimiga = 0
         sprites.jogador.add(self)
 
     @property
@@ -58,21 +59,21 @@ class Jogador(pygame.sprite.Sprite):
     def velocidade(self, velocidade):
         self.__velocidade = velocidade
 
+    @property 
+    def meteoros_destruidos(self):
+        return self.__meteoros_destruidos
+    
+    @meteoros_destruidos.setter
+    def meteoros_destruidos(self, meteoros):
+        self.__meteoros_destruidos = meteoros
+
     @property
-    def valor_meteoro(self):
-        return self.__valor_meteoro
-
-    @valor_meteoro.setter
-    def valor_meteoro(self, valor_meteoro):
-        self.__valor_meteoro = valor_meteoro
-
-    @property
-    def valor_nave_inimiga(self):
-        return self.__valor_nave_inimiga
-
-    @valor_nave_inimiga.setter
-    def valor_nave_inimiga(self,valor_nave_inimiga):
-        self.__valor_nave_inimiga = valor_nave_inimiga
+    def naves_destruidas(self):
+        return self.__naves_destruidas
+    
+    @naves_destruidas.setter
+    def naves_destruidas(self, naves):
+        self.__naves_destruidas = naves
 
     @property
     def vida(self):
@@ -83,7 +84,7 @@ class Jogador(pygame.sprite.Sprite):
         self.__vida = vida
 
     def poder_de_compra(self):
-        pontos = (self.__naves_destruidas * self.__valor_nave_inimiga) + (self.__meteoros_destruidos* self.__valor_nave_inimiga)
+        pontos = (self.__naves_destruidas * 10) + sum(self.__meteoros_destruidos)
         return pontos
 
     def get_input(self):
@@ -99,6 +100,7 @@ class Jogador(pygame.sprite.Sprite):
 
         #tiro
         if keys[pygame.K_SPACE] and self.__tiro_pronto:
+            pygame.mixer.Sound("ataque.wav").play()
             self.atirar()
             self.__tiro_pronto = False
             self.__tiro_temporizador = pygame.time.get_ticks()
