@@ -45,7 +45,7 @@ class ControladorEstadoNivel(pygame.sprite.Sprite):
 
             pygame.display.update()
 
-    def pausar(self):
+    def pausar(self, configuracoes: Configuracoes):
         pygame.mixer.music.pause()
    
         pausado = True
