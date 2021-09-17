@@ -71,3 +71,12 @@ class ControladorEstadoNivel(pygame.sprite.Sprite):
                 self.__view_pausa.window()
 
             pygame.display.update()
+
+    def proxima_rodada(self, dao: VariaveisDAO(), nivel: int, vida: int, escudo: int):
+        if isinstance(dao, VariaveisDAO):
+            dao.add('nivel', nivel)
+            if dao.get('vida') != vida:
+                dao.add('vida', vida)
+            if dao.get('escudo') != escudo:
+                dao.add('escudo', escudo)
+  
