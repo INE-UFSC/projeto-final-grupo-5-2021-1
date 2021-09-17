@@ -1,131 +1,81 @@
-import sys
-import pygame as sg
-import pygame.font
-from TelaJogo import TelaJogo
-from Loja import Loja
-from Sprites import *
-from ControladorDinheiro import ControladorDinheiro
+import pygame
+import pygame_gui
+from View import View
+from JogadorNave import Jogador
 
 class InterfaceLoja:
     def __init__(self):
-        self.__container = []
-        self.__tela = TelaJogo()
-        self.__is_on_loja = True
-        self.__tamanho_botao = (self.__tela.largura - 250, 80)
-        self.__posicao_botao = ((self.__tela.largura / 4) - 80, 150)
-        self.__click = False
+        super().__init__()
+        self.__botao_dano = pygame_gui.elements.UIButton(relative_rect=pygame.Rect(self.posicao_botao, self.tamanho_botao),
+                                            text='Aprimorar dano: +5 $100',
+                                            manager=self.manager)
+        self.__botao_velocidade = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((self.posicao_botao[0], self.posicao_botao[1] + self.tamanho_botao[1] + 20), self.tamanho_botao),
+                                            text='Aprimorar velocidade: +1 $100',
+                                            manager=self.manager)
+        self.__botao_vida = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((self.posicao_botao[0], self.posicao_botao[1] + 2*(self.tamanho_botao[1] + 20)), self.tamanho_botao),
+                                            text='Aumentar vida: +25 $100',
+                                            manager=self.manager)
+        self.__botao_continuar = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((self.posicao_botao[0], self.posicao_botao[1] + 3*(self.tamanho_botao[1] + 20)), self.tamanho_botao),
+                                            text='Continuar',
+                                            manager=self.manager)
 
+        self.botoes = [self.__botao_dano, self.__botao_velocidade, self.__botao_vida, self.__botao_continuar]
+        self.atualizar(40)
 
+        self.__saldo_insuficiente = False
 
-    def mensagens(self, dinheiro: ControladorDinheiro):
-        fonte_botao = pygame.font.SysFont('comicssans', 30)
-        fonte_loja = pygame.font.SysFont('comicssans', 70)
-        fonte_dinheiro = pygame.font.SysFont('comicssans', 35)
+    @property
+    def botao_dano(self):
+        return self.__botao_dano
 
-        nome_loja = fonte_loja.render('Loja', True, (255,0,0))
-        self.__tela.janela.blit(nome_loja, (self.__tela.largura / 6, 10))
+    @property
+    def botao_velocidade(self):
+        return self.__botao_velocidade
 
-        dinheiro_jogador = fonte_dinheiro.render('Dinheiro: {}'.format(dinheiro.dinheiro), True, (255,0,0))
-        self.__tela.janela.blit(dinheiro_jogador, (self.__tela.largura/ 3 + 100, 10))
+    @property
+    def botao_vida(self):
+        return self.__botao_vida
 
-        botao_dano = fonte_botao.render('Aprimorar dano: +15 $100', True, (255,0,0))
-        self.__tela.janela.blit(botao_dano, (self.__posicao_botao[0] + 140, self.__posicao_botao[1] + 15))
+    @property
+    def botao_continuar(self):
+        return self.__botao_continuar
+    
+    @property
+    def saldo_insuficiente(self):
+        return self.__saldo_insuficiente
 
-        botao_velocidade = fonte_botao.render('Aprimorar velocidade: +1 $100', True, (255,0,0))
-        self.__tela.janela.blit(botao_velocidade, (self.__posicao_botao[0] + 140, self.__posicao_botao[1] + self.__tamanho_botao[1] + 65))
-
-        botao_escudo = fonte_botao.render('Aumentar vida: +25 $100', True, (255,0,0))
-        self.__tela.janela.blit(botao_escudo, (self.__posicao_botao[0] + 140, self.__posicao_botao[1] + 2 * (self.__tamanho_botao[1] + 50)+15))
-
-        botao_continuar = fonte_botao.render('Continuar',True, (255,0,0))
-        self.__tela.janela.blit(botao_continuar, (self.__posicao_botao[0] +200, self.__posicao_botao[1] + 2 *(self.__tamanho_botao[1] + 100)+25))
-
-
-
-#0,1,2 em ordem, botao 3 canto inferior direito
-    def botoes(self):
-        #botao 0 = aprimorar dano
-        pygame.draw.rect(self.__tela.janela, (255,165,0),
-        [self.__posicao_botao[0], self.__posicao_botao[1], self.__tamanho_botao[0], self.__tamanho_botao[1]])
-        #botao 1 = aprimorar velocidade
-        pygame.draw.rect(self.__tela.janela, (255,165,0),
-                         [self.__posicao_botao[0], self.__posicao_botao[1] + self.__tamanho_botao[1] + 50,
-                          self.__tamanho_botao[0], self.__tamanho_botao[1]])
-        #botao 2 = comprar escudo
-        pygame.draw.rect(self.__tela.janela,(255,165,0),
-                         [self.__posicao_botao[0], self.__posicao_botao[1] + 2 * (self.__tamanho_botao[1] + 50),
-                          self.__tamanho_botao[0], self.__tamanho_botao[1]]
-                         )
-        #botao 3 = continuar
-        pygame.draw.rect(self.__tela.janela,(255,165,0),
-                         [self.__posicao_botao[0], self.__posicao_botao[1] + 2 * (self.__tamanho_botao[1] + 100),
-                          self.__tamanho_botao[0], self.__tamanho_botao[1]]
-                         )
+    @saldo_insuficiente.setter
+    def saldo_insuficiente(self, insuficiente: bool):
+        self.__saldo_insuficiente = insuficiente
 
     def fundos_insuficientes(self):
         fonte_mensagem = pygame.font.SysFont('comicssans', 40)
-        mensagem_fundos_insuficientes = fonte_mensagem.render('Você não possui dinheiro suficiente', True, (255,0,0))
-        self.__tela.janela.blit(mensagem_fundos_insuficientes, (self.__posicao_botao[0] + 50, self.__posicao_botao[1] + self.__tamanho_botao[1] + 30))
+   
+        mensagem_fundos_insuficientes = fonte_mensagem.render('Você não possui dinheiro suficiente!', True, (255,0,0))
+        self.__tela.janela.blit(mensagem_fundos_insuficientes, (self.posicao_botao[0] + 30, self.tela.altura - 50))
 
+    def textos(self, dinheiro: int, jogador: Jogador):
+        fonte_mensagem = pygame.font.SysFont('comicssans', 70)
+        fonte_atributos = pygame.font.SysFont('comicssans', 30)
 
+        loja = fonte_mensagem.render("Loja", True, (255,255,255))
+        self.tela.janela.blit(loja, (self.tela.largura / 3 + 70, 20))
 
+        valor_dinheiro = fonte_atributos.render("Dinheiro: " + str(dinheiro), True, (255,255,255))
+        self.tela.janela.blit(valor_dinheiro, (10, 90))
 
-    def abrir_interface_loja(self, loja:Loja, controlador_dinheiro: ControladorDinheiro):
-        if len(sprites.inimigos) == 0:
-            self.__tela.mostrar_fundo()
-            self.botoes()
-            self.mensagens(controlador_dinheiro)
+        valor_dano = fonte_atributos.render("Dano: " + str(jogador.dano), True, (255,255,255))
+        self.tela.janela.blit(valor_dano, (210 , 90))
 
-            while self.__is_on_loja:
-                pygame.display.update()
-                mouse = pygame.mouse.get_pos()
+        valor_velocidade = fonte_atributos.render("Velocidade: " + str(jogador.velocidade), True, (255,255,255))
+        self.tela.janela.blit(valor_velocidade, (410, 90))
 
-                for event in pygame.event.get():
-                    if event.type == pygame.MOUSEBUTTONDOWN:
-                        #botao 0
-                        if self.__posicao_botao[0] + self.__tamanho_botao[0] > mouse[0] > self.__posicao_botao[0] and \
-                                self.__posicao_botao[1] + self.__tamanho_botao[1] > mouse[1] > self.__posicao_botao[1]:
-                            if controlador_dinheiro.dinheiro > 100:
-                                loja.aumentar_dano(controlador_dinheiro)
-                                return False
-                            else:
-                                self.fundos_insuficientes()
-                            print(event)
+        valor_vida = fonte_atributos.render("Vida: " + str(jogador.vida), True, (255,255,255))
+        self.tela.janela.blit(valor_vida, (630, 90))
 
-                        #botao 1
-                        elif self.__posicao_botao[0] + self.__tamanho_botao[0] > mouse[0] > self.__posicao_botao[0] and \
-                                self.__posicao_botao[1] + 2 * self.__tamanho_botao[1] + 50 > mouse[1] > \
-                                self.__posicao_botao[1] + self.__tamanho_botao[1] + 50:
-                            if controlador_dinheiro.dinheiro > 100:
-                                loja.aumentar_velocidade(controlador_dinheiro)
-                                return False
-                            else:
-                                self.fundos_insuficientes()
-                            print(event)
-
-                        #botao 2
-                        elif self.__posicao_botao[0] + self.__tamanho_botao[0] > mouse[0] > self.__posicao_botao[0] and \
-                                self.__posicao_botao[1] + 3 * self.__tamanho_botao[1] + 100 > mouse[1] > \
-                                self.__posicao_botao[1] + 2 * (self.__tamanho_botao[1] + 50):
-                            if controlador_dinheiro.dinheiro > 100:
-                                loja.comprar_escudo(controlador_dinheiro)
-                                return False
-                            else:
-                                self.fundos_insuficientes()
-                            print(event)
-
-                        #2: 150 até 670 mais ou menos no X
-                        #2: 414 até 487 no y mais ou menos
-                        #botao 3
-                        elif self.__posicao_botao[0] + self.__tamanho_botao[0] > mouse[0] > self.__posicao_botao[0] and self.__posicao_botao[1] + 3 * self.__tamanho_botao[1] + 150 > mouse[1] > \
-                            self.__posicao_botao[1] + 2 * (self.__tamanho_botao[1]+50):
-                            print(event)
-                            return False
-
-                        elif pygame.event == pygame.QUIT:
-                            sys.exit()
-
-
-    def ver_botoes(self):
-        return "{}, {}, {}, {}".format(self.__posicao_botao[0],self.__tamanho_botao[0], self.__posicao_botao[1], self.__tamanho_botao[1])
-
+    def window(self, dinheiro: int, jogador: Jogador):
+        self.tela.mostrar_fundo()
+        if self.__saldo_insuficiente:
+            self.mensagem_fundos_insuficientes()
+        self.textos(dinheiro, jogador)
+        super().window()
