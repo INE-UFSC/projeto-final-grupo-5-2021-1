@@ -14,7 +14,6 @@ from JogadorNave import Jogador
 from Sprites import *
 from ControladorDinheiro import ControladorDinheiro
 from Loja import *
-from LojaView import InterfaceLoja
 
 
 class Jogo:
@@ -31,7 +30,6 @@ class Jogo:
         self.controle_elementos = ControladorElementosNivel(self.variaveis)
         self.controle_dinheiro = ControladorDinheiro()
         self.loja = Loja(self.jogador)
-        self.interface_loja = InterfaceLoja()
         self.configuracoes = Configuracoes()
 
     def elementos_tela(self):
@@ -49,7 +47,9 @@ class Jogo:
         if MenuJogo().menu(self.configuracoes) == 'recomecar':
             self.controle_elementos.nivel = 0
             self.jogador.vida = 100
-            self.jogador.rect = Jogador().posicao
+            self.jogador.dano = 25
+            self.jogador.velocidade = 5
+            self.controle_dinheiro.dinheiro = 0
 
         pygame.mixer.music.load("trilhasonora.wav")
         pygame.mixer.music.set_volume(self.configuracoes.volume_jogo)
@@ -78,12 +78,13 @@ class Jogo:
             self.controle_elementos.colisoes(self.jogador, self.controle_dinheiro)
             self.tempo_fase += 1 / self.FPS
             self.controle_dinheiro.gerar_recompensa()
-            self.interface_loja.abrir_interface_loja(self.loja, self.controle_dinheiro)
 
             if len(sprites.inimigos) == 0:
+                self.jogador.tiros.empty()
+                self.loja.abrir_loja(self.controle_dinheiro)
                 self.tempo_fase = 0
                 if self.controle_elementos.nivel != 0:
-                    self.controle.proxima_rodada(self.variaveis, self.controle_elementos.nivel, self.jogador.vida, self.jogador.escudo)
+                    self.controle.proxima_rodada(self.variaveis, self.controle_elementos.nivel, self.jogador.vida, self.controle_dinheiro.dinheiro)
         
             if self.tempo_fase >= self.tempo_maximo or self.jogador.vida <= 0:
                 self.controle_elementos.nivel = 0
