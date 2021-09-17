@@ -13,10 +13,10 @@ class View(ABC):
         self.__tamanho_botao = ((self.tela.largura - 250, 80))
         self.__botoes = []
 
-    def atualizar(self):
+    def atualizar(self, tamanho: int):
         for botao in self.__botoes:
             try:
-                botao.font = pygame.font.SysFont('comicssans', 70)
+                botao.font = pygame.font.SysFont('comicssans', tamanho)
                 botao.rebuild()
             except AttributeError:
                 print('Não possui esse método')
