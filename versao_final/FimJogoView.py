@@ -16,7 +16,7 @@ class FimJogoView(View):
                                             manager=self.manager) 
 
         self.botoes = [self.__botao_recomecar, self.__botao_sair]
-        self.atualizar()
+        self.atualizar(70)
 
     @property
     def botao_recomecar(self):
