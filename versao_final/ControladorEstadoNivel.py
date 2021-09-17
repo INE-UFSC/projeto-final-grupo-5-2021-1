@@ -20,8 +20,12 @@ class ControladorEstadoNivel(pygame.sprite.Sprite):
         if isinstance(jogador, Jogador) and isinstance(tela, TelaJogo):
             VariaveisDAO().add('nivel', 0)
             VariaveisDAO().add('vida', 100)
+            VariaveisDAO().add('velocidade', 5)
+            VariaveisDAO().add('dano', 25)
+            VariaveisDAO().add('dinheiro', 0)
+            # Método com os elementos iniciais do jogador?
             jogador.vida = 100
-            jogador.rect.center = (tela.largura/2, tela.altura - 100)
+            # jogador.rect.center = (tela.largura/2, tela.altura - 100)
 
         pygame.mixer.music.pause()
 
@@ -72,11 +76,10 @@ class ControladorEstadoNivel(pygame.sprite.Sprite):
 
             pygame.display.update()
 
-    def proxima_rodada(self, dao: VariaveisDAO(), nivel: int, vida: int, escudo: int):
+    def proxima_rodada(self, dao: VariaveisDAO(), nivel: int, vida: int, dinheiro: int):
         if isinstance(dao, VariaveisDAO):
             dao.add('nivel', nivel)
             if dao.get('vida') != vida:
                 dao.add('vida', vida)
-            if dao.get('escudo') != escudo:
-                dao.add('escudo', escudo)
-  
+            if dao.get('dinheiro') != dinheiro:
+                dao.add('dinheiro', dinheiro)
