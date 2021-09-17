@@ -17,7 +17,7 @@ class PausaView(View):
                                             manager=self.manager)
 
         self.botoes = [self.__botao_continuar, self.__botao_configurar, self.__botao_menu]
-        self.atualizar()
+        self.atualizar(70)
 
     @property
     def botao_continuar(self):
