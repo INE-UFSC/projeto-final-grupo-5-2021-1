@@ -13,17 +13,18 @@ class Inimigo(pygame.sprite.Sprite, ABC):
         self.__velocidade = 5
         self.__dano = 5
         self.__vida = 50
-        self.__image = pygame.transform.scale(pygame.image.load("nave_inimiga.png"), (80,80))
+        self.__recompensa = 0
+        self.__image = pygame.transform.scale(pygame.image.load("nave_inimiga.png"), (80, 80))
         self.__rect = self.__image.get_rect()
         self.mask = pygame.mask.from_surface(self.__image)
-        self.__posicoesx = [0,50,100,150,200,250,300,350,400,450,500,550,600,650,700]
-        self.__posicoesy = [80,160,240]
-        self.__rect.center = (0, self.__posicoesy[random.randint(0,len(self.__posicoesy)-1)])
+        self.__posicoesx = [0, 50, 100, 150, 200, 250, 300, 350, 400, 450, 500, 550, 600, 650, 700]
+        self.__posicoesy = [80, 160, 240]
+        self.__rect.center = (0, self.__posicoesy[random.randint(0, len(self.__posicoesy) - 1)])
 
     @property
     def velocidade(self):
         return self.__velocidade
-    
+
     @velocidade.setter
     def velocidade(self, velocidade):
         self.__velocidade = velocidade
@@ -31,7 +32,7 @@ class Inimigo(pygame.sprite.Sprite, ABC):
     @property
     def dano(self):
         return self.__dano
-    
+
     @dano.setter
     def dano(self, dano):
         self.__dano = dano
@@ -39,19 +40,19 @@ class Inimigo(pygame.sprite.Sprite, ABC):
     @property
     def image(self):
         return self.__image
-    
+
     @image.setter
     def image(self, imagem):
         self.__image = imagem
-    
+
     @property
     def vida(self):
         return self.__vida
-    
+
     @vida.setter
     def vida(self, vida):
         self.__vida = vida
-    
+
     @property
     def posicoesx(self):
         return self.__posicoesx
@@ -63,35 +64,40 @@ class Inimigo(pygame.sprite.Sprite, ABC):
     @property
     def rect(self):
         return self.__rect
-    
+
     @rect.setter
     def rect(self, rect):
         self.__rect = rect
 
+    @property
+    def recompensa(self):
+        return self.__recompensa
+
     def movimento(self):
         pass
-    
+
     def geracao(self, display):
-        display.blit(self.__image, (self.__rect.x,self.__rect.y))
+        display.blit(self.__image, (self.__rect.x, self.__rect.y))
+
 
 class Nave(Inimigo, pygame.sprite.Sprite, ABC):
     @abstractmethod
     def __init__(self, largura):
         super().__init__()
-        self.__direcao = random.randint(0,1)
+        self.__direcao = random.randint(0, 1)
         if self.__direcao == 0:
             self.rect.x = random.randint(-500, -10)
         else:
-            self.rect.x = random.randint(largura+10, largura+500)
-        self.__maxiposi = self.posicoesx[random.randint(0,len(self.posicoesx)-1)]
+            self.rect.x = random.randint(largura + 10, largura + 500)
+        self.__maxiposi = self.posicoesx[random.randint(0, len(self.posicoesx) - 1)]
         self.tiros = Sprites().tiros
         self.__tiro_temporizador = 0
         self.__cooldown_tiro = 2
-    
+
     @property
     def tiro_temporizador(self):
         return self.__tiro_temporizador
-    
+
     @tiro_temporizador.setter
     def tiro_temporizador(self, tiro_temporizador):
         self.__tiro_temporizador = tiro_temporizador
@@ -99,7 +105,7 @@ class Nave(Inimigo, pygame.sprite.Sprite, ABC):
     @property
     def maxiposi(self):
         return self.__maxiposi
-    
+
     @property
     def direcao(self):
         return self.__direcao
@@ -117,16 +123,29 @@ class Nave(Inimigo, pygame.sprite.Sprite, ABC):
             if self.rect.x > self.__maxiposi:
                 self.rect.x -= self.velocidade
 
+
 class NaveComum(Nave, pygame.sprite.Sprite):
     def __init__(self, largura):
         super().__init__(largura)
+        self.__recompensa = 10
+
+    @property
+    def recompensa(self):
+        recompensa = int(self.__recompensa)
+        return recompensa
+
 
 class Kamikaze(Nave, pygame.sprite.Sprite):
     def __init__(self, largura):
         super().__init__(largura)
-        self.image = pygame.transform.scale(pygame.image.load("kamikaze_nave.png"), (70,70))
+        self.image = pygame.transform.scale(pygame.image.load("kamikaze_nave.png"), (70, 70))
         self.__dano_explosao = 20
-    
+        self.__recompensa = 50
+
+    @property
+    def recompensa(self):
+        return self.__recompensa
+
     @property
     def dano_explosao(self):
         return self.__dano_explosao
@@ -134,13 +153,13 @@ class Kamikaze(Nave, pygame.sprite.Sprite):
     @dano_explosao.setter
     def dano_explosao(self, dano_explosao):
         self.__dano_explosao = dano_explosao
-    
+
     def explodir(self, jogador):
-        if jogador.rect.x <= self.rect.x+self.rect.width/2:
+        if jogador.rect.x <= self.rect.x + self.rect.width / 2:
             jogador.rect.x -= 50
         else:
             jogador.rect.x += 50
-        if jogador.rect.y+jogador.rect.bottom <= self.rect.y+self.rect.height/2:
+        if jogador.rect.y + jogador.rect.bottom <= self.rect.y + self.rect.height / 2:
             jogador.rect.y -= 100
         else:
             jogador.rect.y += 100
@@ -160,20 +179,21 @@ class Kamikaze(Nave, pygame.sprite.Sprite):
                 else:
                     inimigos.remove(self)
 
+
 class Meteoro(Inimigo, pygame.sprite.Sprite):
     def __init__(self):
         super().__init__()
-        self.image = pygame.transform.scale(pygame.image.load("meteoro.png"), (50,60))
-        self.__recompensa = random.randint(1,10)
-        self.rect.x = self.posicoesx[random.randint(0,len(self.posicoesx)-1)]
-        self.rect.y = random.randint(-500,-10)
+        self.image = pygame.transform.scale(pygame.image.load("meteoro.png"), (50, 60))
+        self.__recompensa = 30
+        self.rect.x = self.posicoesx[random.randint(0, len(self.posicoesx) - 1)]
+        self.rect.y = random.randint(-500, -10)
 
     @property
     def recompensa(self):
         return self.__recompensa
-    
+
     def movimento(self, inimigos, altura):
-        if self.rect.y < altura+10:
+        if self.rect.y < altura + 10:
             self.rect.y += self.velocidade
         else:
             inimigos.remove(self)
