@@ -20,7 +20,7 @@ class MenuView(View):
                                             manager=self.manager)
 
         self.botoes = [self.__botao_iniciar, self.__botao_continuar, self.__botao_configurar, self.__botao_sair]
-        self.atualizar()
+        self.atualizar(70)
 
     @property
     def botao_iniciar(self):
