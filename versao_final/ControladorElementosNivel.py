@@ -1,25 +1,32 @@
 from JogadorNave import Jogador
-from Inimigo import Inimigo, Kamikaze, Meteoro, NaveComum
+from VariaveisDao import VariaveisDAO
+from Inimigo import *
 from Sprites import *
 import random
 
 
 class ControladorElementosNivel():
-    def __init__(self):
-        self.__nivel = 0
+    def __init__(self, variavel: VariaveisDAO):
+        if isinstance(variavel, VariaveisDAO):
+            self.__nivel = variavel.get('nivel')
         self.tempo_fase = 0
+  
     @property
     def nivel(self):
         return self.__nivel
+ 
     @nivel.setter
     def nivel(self, nivel):
         self.__nivel = nivel
-
 
     def colisoes(self, jogador:Jogador):
         for inimigo_acertado in jogador.colisao(sprites.inimigos, jogador.tiros):
             inimigo_acertado.vida -= sprites.jogador.sprite.dano
             if inimigo_acertado.vida == 0:
+                if isinstance(inimigo_acertado, Nave):
+                    jogador.naves_destruidas += 1
+                elif isinstance(inimigo_acertado, Meteoro):
+                    jogador.meteoros_destruidos.append(inimigo_acertado.recompensa)
                 sprites.inimigos.remove(inimigo_acertado)
 
         for inimigo_colidido in jogador.colisao(sprites.jogador, sprites.inimigos).values():
