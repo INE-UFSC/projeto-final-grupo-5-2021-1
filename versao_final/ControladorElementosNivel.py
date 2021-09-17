@@ -27,18 +27,8 @@ class ControladorElementosNivel():
     def colisoes(self, jogador: Jogador):
         for inimigo_acertado in jogador.colisao(sprites.inimigos, jogador.tiros):
             inimigo_acertado.vida -= sprites.jogador.sprite.dano
-            #determina que o inimigo morreu
-            if inimigo_acertado.vida == 0 or 0>inimigo_acertado.vida:
-                if isinstance(inimigo_acertado, NaveComum):
-                    jogador.naves_destruidas += 1
-                    ControladorDinheiro.dinheiro = self.__nave_comum.recompensa
-                elif isinstance(inimigo_acertado, Meteoro):
-                    jogador.meteoros_destruidos.append(inimigo_acertado.recompensa)
-                    ControladorDinheiro.dinheiro = self.__meteoror.recompensa
-                elif isinstance(inimigo_acertado, Kamikaze):
-                    jogador.naves_destruidas += 1
-                    ControladorDinheiro.dinheiro = self.__kamikaze.recompensa
-
+            if 0>= inimigo_acertado.vida:
+                ControladorDinheiro.dinheiro = inimigo_acertado.recompensa
                 sprites.inimigos.remove(inimigo_acertado)
 
         for inimigo_colidido in jogador.colisao(sprites.jogador, sprites.inimigos).values():
