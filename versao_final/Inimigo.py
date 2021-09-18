@@ -89,7 +89,6 @@ class Nave(Inimigo, pygame.sprite.Sprite, ABC):
             self.rect.x = random.randint(-500, -10)
         else:
             self.rect.x = random.randint(largura + 10, largura + 500)
-        self.__maxiposi = self.posicoesx[random.randint(0, len(self.posicoesx) - 1)]
         self.tiros = Sprites().tiros
         self.__tiro_temporizador = 0
         self.__cooldown_tiro = 2
@@ -103,10 +102,6 @@ class Nave(Inimigo, pygame.sprite.Sprite, ABC):
         self.__tiro_temporizador = tiro_temporizador
 
     @property
-    def maxiposi(self):
-        return self.__maxiposi
-
-    @property
     def direcao(self):
         return self.__direcao
 
@@ -117,11 +112,15 @@ class Nave(Inimigo, pygame.sprite.Sprite, ABC):
 
     def movimento(self):
         if self.__direcao == 0:
-            if self.rect.x < self.__maxiposi:
+            if self.rect.x < tela_jogo.largura - 50:
                 self.rect.x += self.velocidade
+            else:
+                self.__direcao = 1
         else:
-            if self.rect.x > self.__maxiposi:
+            if self.rect.x > -20:
                 self.rect.x -= self.velocidade
+            else:
+                self.__direcao = 0
 
 
 class NaveComum(Nave, pygame.sprite.Sprite):
@@ -140,11 +139,16 @@ class Kamikaze(Nave, pygame.sprite.Sprite):
         super().__init__(largura)
         self.image = pygame.transform.scale(pygame.image.load("kamikaze_nave.png"), (70, 70))
         self.__dano_explosao = 20
+        self.__maxiposi = self.posicoesx[random.randint(0, len(self.posicoesx) - 1)]
         self.__recompensa = 50
 
     @property
     def recompensa(self):
         return self.__recompensa
+    
+    @property
+    def maxiposi(self):
+        return self.__maxiposi
 
     @property
     def dano_explosao(self):
@@ -165,19 +169,22 @@ class Kamikaze(Nave, pygame.sprite.Sprite):
             jogador.rect.y += 100
 
     def movimento(self, inimigos, altura):
-        super().movimento()
         if self.direcao == 0:
-            if self.rect.x >= self.maxiposi:
+            if self.rect.x >= self.__maxiposi:
                 if self.rect.y <= altura:
                     self.rect.y += self.velocidade
                 else:
                     inimigos.remove(self)
+            else:
+                self.rect.x += self.velocidade
         else:
-            if self.rect.x <= self.maxiposi:
+            if self.rect.x <= self.__maxiposi:
                 if self.rect.y <= altura:
                     self.rect.y += self.velocidade
                 else:
                     inimigos.remove(self)
+            else:
+                self.rect.x -= self.velocidade
 
 
 class Meteoro(Inimigo, pygame.sprite.Sprite):
