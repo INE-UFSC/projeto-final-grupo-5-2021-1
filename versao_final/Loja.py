@@ -20,11 +20,11 @@ class Loja:
         controlador_dinheiro.dinheiro -= self.__custo_escudo
 
     def aumentar_dano(self, controlador_dinheiro: ControladorDinheiro):
-        self.__jogador.dano += 15
+        self.__jogador.dano += 5
         controlador_dinheiro.dinheiro -= self.__custo_dano
 
     def aumentar_velocidade(self, controlador_dinheiro: ControladorDinheiro):
-        self.__jogador.velocidade += 10
+        self.__jogador.velocidade += 1
         controlador_dinheiro.dinheiro -= self.__custo_velocidade
 
     def abrir_loja(self, controlador_dinheiro: ControladorDinheiro):
