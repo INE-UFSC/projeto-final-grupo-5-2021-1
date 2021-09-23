@@ -31,8 +31,10 @@ class MenuJogo(pygame.sprite.Sprite):
                             except AttributeError:
                                 print('Não possui esse método')
                         elif event.ui_element == self.__view_menu.botao_sair:
-                            pygame.quit()
-                            sys.exit()
+                            self.__view_menu.confirmacao()
+                    if event.user_type == pygame_gui.UI_CONFIRMATION_DIALOG_CONFIRMED:
+                        pygame.quit()
+                        sys.exit()
 
                 self.__view_menu.ler_evento(event)
                 self.__view_menu.window()
