@@ -39,7 +39,7 @@ class ConfiguracaoView(View):
     def botao_continuar(self):
         return self.__botao_continuar
 
-    def textos(self, total_volume: int):
+    def textos(self, total_volume: int, parametro2=None):
         configuracao = self.__fonte_mensagem.render("Configurações", True, (255,255,255))
         self.tela.janela.blit(configuracao, (self.tela.largura / 5, 50))
 
@@ -48,7 +48,5 @@ class ConfiguracaoView(View):
         self.tela.janela.blit(qtd_volume, (220, (self.tela.altura/2) - 110))
     
     def window(self, volume: int):
-        self.tela.mostrar_fundo()
+        super().window(volume)
         self.tela.janela.blit(self.__imagem_som, (50, (self.tela.altura/2) - 100))
-        self.textos(volume)
-        super().window()
