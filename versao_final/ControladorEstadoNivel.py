@@ -18,14 +18,9 @@ class ControladorEstadoNivel(pygame.sprite.Sprite):
 
     def fim_de_jogo(self, jogador: Jogador, tela: TelaJogo):
         if isinstance(jogador, Jogador) and isinstance(tela, TelaJogo):
-            VariaveisDAO().add('nivel', 0)
-            VariaveisDAO().add('vida', 100)
-            VariaveisDAO().add('velocidade', 5)
-            VariaveisDAO().add('dano', 25)
-            VariaveisDAO().add('dinheiro', 0)
-            # Método com os elementos iniciais do jogador?
-            jogador.vida = 100
-            # jogador.rect.center = (tela.largura/2, tela.altura - 100)
+            loja.compras_iniciais()
+            jogador.atributos_iniciais()
+            jogador.posicao_inicial()
 
         pygame.mixer.music.pause()
 
@@ -41,8 +36,10 @@ class ControladorEstadoNivel(pygame.sprite.Sprite):
                             pygame.mixer.music.play(-1)
                             morreu = False
                         elif event.ui_element == self.__view_fim_jogo.botao_sair:
-                            pygame.quit()
-                            sys.exit()
+                            self.__view_fim_jogo.confirmacao()
+                    if event.user_type == pygame_gui.UI_CONFIRMATION_DIALOG_CONFIRMED:
+                        pygame.quit()
+                        sys.exit()
 
                 self.__view_fim_jogo.ler_evento(event)
                 self.__view_fim_jogo.window()
@@ -76,10 +73,15 @@ class ControladorEstadoNivel(pygame.sprite.Sprite):
 
             pygame.display.update()
 
-    def proxima_rodada(self, dao: VariaveisDAO(), nivel: int, vida: int, dinheiro: int):
-        if isinstance(dao, VariaveisDAO):
+    def proxima_rodada(self, dao: VariaveisDAO(), nivel: int, dinheiro: int, jogador: Jogador):
+        if isinstance(dao, VariaveisDAO) and isinstance(jogador, Jogador):
             dao.add('nivel', nivel)
-            if dao.get('vida') != vida:
-                dao.add('vida', vida)
+            if dao.get('vida') != jogador.vida:
+                dao.add('vida', jogador.vida)
+            if dao.get('velocidade') != jogador.velocidade:
+                dao.add('velocidade', jogador.velocidade)
+            if dao.get('dano') != jogador.dano:
+                dao.add('dano', jogador.dano)
             if dao.get('dinheiro') != dinheiro:
                 dao.add('dinheiro', dinheiro)
+
