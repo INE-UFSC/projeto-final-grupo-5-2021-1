@@ -1,27 +1,20 @@
 import pickle
 
 
-class VariaveisDAO:
-    def __init__(self, datasource='jogo.pkl'):
-        self.__datasource = datasource
-        self.__object_cache = {}
-        try:
-            self.__load()
-        except FileNotFoundError:
-            self.__dump()
+class AtributosDAO(DAO):
+    def __init__(self):
+        super().__init__(datasource='jogo.pkl')
 
-    def __dump(self):
-        pickle.dump(self.__object_cache, open(self.__datasource, 'wb'))
-
-    def __load(self):
-        self.__object_cache = pickle.load(open(self.__datasource, 'rb'))
-
-    def add(self, variavel, valor):
-        self.__object_cache[variavel] = valor
-        self.__dump()
-
-    def get(self, variavel):
-        try:
-            return self.__object_cache[variavel]
-        except KeyError:
-            return "KeyError"
+    def salvar_variaveis(self, vida: int, dano: int, velocidade: int, dinheiro: int, nivel: int):
+        self.add('nivel', nivel)
+        self.add('vida', vida)
+        self.add('dano', dano)
+        self.add('velocidade', velocidade)
+        self.add('dinheiro', dinheiro)
+    
+    def resetar_variaveis(self):
+        self.add('nivel', 0)
+        self.add('vida', 100)
+        self.add('dano', 25)
+        self.add('velocidade', 5)
+        self.add('dinheiro', 0)
