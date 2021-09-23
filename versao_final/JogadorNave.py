@@ -24,16 +24,7 @@ class Jogador(pygame.sprite.Sprite):
         self.__dano = self.__variaveis.get('dano')
         self.__meteoros_destruidos = []
         self.__naves_destruidas = 0
-        self.__escudo = 0
         sprites.jogador.add(self)
-
-    @property
-    def escudo(self):
-        return self.__escudo
-
-    @escudo.setter
-    def escudo(self, escudo_valor):
-        self.__escudo = escudo_valor
 
     @property
     def dano(self):
@@ -86,6 +77,14 @@ class Jogador(pygame.sprite.Sprite):
     def poder_de_compra(self):
         pontos = (self.__naves_destruidas * 10) + sum(self.__meteoros_destruidos)
         return pontos
+    
+    def atributos_iniciais(self):
+        self.__vida = 100
+        self.__dano = 25
+        self.__velocidade = 5
+    
+    def posicao_inicial(self):
+        self.rect = self.image.get_rect(midbottom = self.__posicao)
 
     def get_input(self):
         keys = pygame.key.get_pressed()
