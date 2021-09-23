@@ -25,3 +25,14 @@ class FimJogoView(View):
     @property
     def botao_sair(self):
         return self.__botao_sair
+
+    def textos(self, parametro1=None, parametro2=None):
+        fonte_nome = pygame.font.SysFont('comicssans', 80)
+
+        nome_jogo = fonte_nome.render("Fim de jogo!", True, (255,255,255))
+        self.tela.janela.blit(nome_jogo, (self.tela.largura / 4 + 30, self.posicao_botao[1] - 100))
+
+    def confirmacao(self):
+        return pygame_gui.windows.UIConfirmationDialog(rect=pygame.Rect((self.tela.largura/2 - 100, self.tela.altura/2 - 50), (260, 200)), 
+                                                manager=self.manager, action_long_desc='Deseja mesmo sair?', 
+                                                window_title='Sair', action_short_name='Sim')
