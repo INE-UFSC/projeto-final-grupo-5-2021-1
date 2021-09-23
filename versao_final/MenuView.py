@@ -38,13 +38,13 @@ class MenuView(View):
     def botao_sair(self):
         return self.__botao_sair
 
-    def textos(self):
+    def textos(self, parametro1=None, parametro2=None):
         fonte_nome = pygame.font.SysFont('comicssans', 100)
 
         nome_jogo = fonte_nome.render("*Nome do Jogo", True, (255,255,255))
         self.tela.janela.blit(nome_jogo, (self.tela.largura / 6, 10))
-    
-    def window(self):
-        self.tela.mostrar_fundo()
-        self.textos()
-        super().window()
+
+    def confirmacao(self):
+        return pygame_gui.windows.UIConfirmationDialog(rect=pygame.Rect((self.tela.largura/2 - 100, self.tela.altura/2 - 50), (260, 200)), 
+                                                manager=self.manager, action_long_desc='Deseja mesmo sair?', 
+                                                window_title='Sair', action_short_name='Sim')
