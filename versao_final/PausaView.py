@@ -31,3 +31,8 @@ class PausaView(View):
     def botao_menu(self):
         return self.__botao_menu
   
+    def textos(self, parametro1=None, parametro2=None):
+        fonte_nome = pygame.font.SysFont('comicssans', 80)
+
+        nome_jogo = fonte_nome.render("Pausado", True, (255,255,255))
+        self.tela.janela.blit(nome_jogo, (self.tela.largura / 4 + 80, self.posicao_botao[1] - 100))
