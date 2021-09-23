@@ -20,8 +20,13 @@ class View(ABC):
                 botao.rebuild()
             except AttributeError:
                 print('Não possui esse método')
+                
+    def textos(self, paramentro1, parametro2):
+        pass
 
-    def window(self):
+    def window(self, parametro1=None, parametro2=None):
+        self.tela.mostrar_fundo()
+        self.textos(parametro1,parametro2)
         self.__manager.update(pygame.time.Clock().tick(60))
         self.__manager.draw_ui(self.__tela.janela)
 
