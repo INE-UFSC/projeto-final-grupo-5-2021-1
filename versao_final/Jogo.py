@@ -71,7 +71,7 @@ class Jogo:
                     sys.exit()
 
             self.controle_elementos.geracao_inimigos(self.tela.largura)
-            self.controle_elementos.comportamento_inimigos(self.tela.janela, self.tela.altura,self.jogador, self.FPS)
+            self.controle_elementos.comportamento_inimigos(self.tela, self.jogador, self.FPS)
             self.controle_elementos.colisoes(self.jogador, self.efeitos_sonoros)
             self.tempo_fase += 1 / self.FPS
             self.controle_dinheiro.gerar_recompensa()
@@ -82,7 +82,7 @@ class Jogo:
 
             if len(sprites.inimigos) == 0:
                 self.tempo_fase = 0
-                self.controle.proxima_rodada(self.variaveis, self.controle_elementos, self.controle_dinheiro, self.jogador, self.loja, self.efeitos_sonoros)
+                self.controle.proxima_rodada(self.atributos, self.controle_elementos, self.controle_dinheiro, self.jogador, self.loja, self.efeitos_sonoros)
 
             pygame.display.update()
 
