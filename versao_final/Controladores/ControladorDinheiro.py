@@ -1,4 +1,4 @@
-from Sprites import *
+from Componentes.Sprites import *
 from Persistencia.AtributosDao import AtributosDAO
 
 
