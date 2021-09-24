@@ -1,5 +1,5 @@
 from Sprites import *
-from VariaveisDao import VariaveisDAO
+from AtributosDao import AtributosDAO
 from ControladorDinheiro import ControladorDinheiro
 from Loja import Loja
 from JogadorNave import Jogador
@@ -22,7 +22,7 @@ class ControladorMenu:
 
     def voltar_menu(self, controle: ControladorElementosNivel, jogador: Jogador):
         if isinstance(controle, ControladorElementosNivel) and isinstance(jogador, Jogador):
-            controle.nivel = VariaveisDAO().get('nivel')
+            controle.nivel = AtributosDAO().get('nivel')
             controle.explodir = False
             controle.tempo = 0
             jogador.posicao_inicial()
