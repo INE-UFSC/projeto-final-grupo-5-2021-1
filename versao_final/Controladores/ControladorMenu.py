@@ -1,7 +1,7 @@
-from Sprites import *
+from Componentes.Sprites import *
 from Persistencia.AtributosDao import AtributosDAO
 from Controladores.ControladorDinheiro import ControladorDinheiro
-from Loja import Loja
+from LogicaInterface.Loja import Loja
 from Entidades.JogadorNave import Jogador
 from Controladores.ControladorElementosNivel import ControladorElementosNivel
 
