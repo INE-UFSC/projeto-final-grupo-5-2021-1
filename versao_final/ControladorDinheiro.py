@@ -1,10 +1,10 @@
 from Sprites import *
-from VariaveisDao import VariaveisDAO
+from AtributosDao import AtributosDAO
 
 
 class ControladorDinheiro:
     def __init__(self):
-        self.__dinheiro_jogador = VariaveisDAO().get('dinheiro')
+        self.__dinheiro_jogador = AtributosDAO().get('dinheiro')
 
     @property
     def dinheiro(self):
