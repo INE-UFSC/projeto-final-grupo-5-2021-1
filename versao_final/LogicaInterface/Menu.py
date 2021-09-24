@@ -10,7 +10,7 @@ from Configuracoes import Configuracoes
 import pygame
 import pygame_gui
 import sys
-from TelaJogo import TelaJogo
+from Componentes.TelaJogo import TelaJogo
 
 
 class MenuJogo(pygame.sprite.Sprite):
