@@ -3,7 +3,7 @@ import pygame_gui
 from View import View
 from JogadorNave import Jogador
 
-class InterfaceLoja:
+class InterfaceLoja(View):
     def __init__(self):
         super().__init__()
         self.__botao_dano = pygame_gui.elements.UIButton(relative_rect=pygame.Rect(self.posicao_botao, self.tamanho_botao),
