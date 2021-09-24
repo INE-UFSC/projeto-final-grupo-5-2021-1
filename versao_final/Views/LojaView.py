@@ -1,7 +1,7 @@
 import pygame
 import pygame_gui
-from View import View
-from JogadorNave import Jogador
+from Views.View import View
+from Entidades.JogadorNave import Jogador
 
 class InterfaceLoja(View):
     def __init__(self):
