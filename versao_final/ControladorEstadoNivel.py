@@ -1,4 +1,4 @@
-from VariaveisDao import VariaveisDAO
+from AtributosDao import AtributosDAO
 from ControladorDinheiro import ControladorDinheiro
 from ControladorElementosNivel import ControladorElementosNivel
 from ControladorMenu import ControladorMenu
@@ -25,7 +25,7 @@ class ControladorEstadoNivel(pygame.sprite.Sprite):
         self.__view_pausa = PausaView()
 
     def fim_de_jogo(self, jogador: Jogador, tela: TelaJogo, loja: Loja, efeito_sonoro: EfeitosSonoros, controle: ControladorElementosNivel, dinheiro: ControladorDinheiro):
-        if isinstance(jogador, Jogador) and isinstance(tela, TelaJogo) and isinstance(loja, Loja) and isinstance(efeito_sonoro, EfeitosSonoros)
+        if isinstance(jogador, Jogador) and isinstance(tela, TelaJogo) and isinstance(loja, Loja) and isinstance(efeito_sonoro, EfeitosSonoros) \
             and isinstance(controle, ControladorElementosNivel) and isinstance(dinheiro, ControladorDinheiro):
             controle.nivel = 0
             jogador.tiros.empty()
@@ -34,7 +34,7 @@ class ControladorEstadoNivel(pygame.sprite.Sprite):
             loja.compras_iniciais()
             jogador.atributos_iniciais()
             jogador.posicao_inicial()
-            VariaveisDAO().resetar_variaveis()
+            AtributosDAO().resetar_variaveis()
             LojaDAO().resetar_variaveis()
 
         efeito_sonoro.pausar_musica()
@@ -93,8 +93,8 @@ class ControladorEstadoNivel(pygame.sprite.Sprite):
 
                 pygame.display.update()
 
-    def proxima_rodada(self, dao: VariaveisDAO, controle: ControladorElementosNivel, dinheiro: ControladorDinheiro, jogador: Jogador, loja: Loja, efeito_sonoro: EfeitosSonoros):
-        if isinstance(dao, VariaveisDAO) and isinstance(jogador, Jogador) and isinstance(controle, ControladorElementosNivel) and isinstance(dinheiro, ControladorDinheiro)
+    def proxima_rodada(self, dao: AtributosDAO, controle: ControladorElementosNivel, dinheiro: ControladorDinheiro, jogador: Jogador, loja: Loja, efeito_sonoro: EfeitosSonoros):
+        if isinstance(dao, AtributosDAO) and isinstance(jogador, Jogador) and isinstance(controle, ControladorElementosNivel) and isinstance(dinheiro, ControladorDinheiro) \
             and isinstance(loja, Loja) and isinstance(efeito_sonoro, EfeitosSonoros):
             dao.salvar_variaveis(jogador.vida, jogador.dano, jogador.velocidade, dinheiro.dinheiro, controle.nivel)
             jogador.tiros.empty()
