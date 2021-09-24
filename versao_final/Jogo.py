@@ -16,6 +16,7 @@ from Loja import Loja
 
 pygame.init()
 pygame.display.set_caption('Space Conqueror')
+pygame.display.set_icon(pygame.transform.scale(pygame.image.load('Ship_Player_PNG_01.png'), (10,10)))
 
 class Jogo:
     def __init__(self):
