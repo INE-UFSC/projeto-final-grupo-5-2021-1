@@ -16,7 +16,7 @@ class Inimigo(pygame.sprite.Sprite, ABC):
         self.__dano = 5
         self.__vida = 50
         self.__recompensa = 0
-        self.__image = pygame.transform.scale(pygame.image.load("nave_inimiga.png"), (80, 80))
+        self.__image = pygame.transform.scale(pygame.image.load("Imagens/nave_inimiga.png"), (80, 80))
         self.__rect = self.__image.get_rect()
         self.mask = pygame.mask.from_surface(self.__image)
         self.__posicoesx = [0, 50, 100, 150, 200, 250, 300, 350, 400, 450, 500, 550, 600, 650, 700]
@@ -156,7 +156,7 @@ class NaveComum(Nave, pygame.sprite.Sprite):
     def __init__(self, largura: int):
         super().__init__(largura)
         self.recompensa = 10
-        self.imagem_explosao = pygame.transform.scale(pygame.image.load('explosao_normal.png'), (60, 60))
+        self.imagem_explosao = pygame.transform.scale(pygame.image.load('Imagens/explosao_normal.png'), (60, 60))
 
     def explodir(self, jogador: Jogador):
         if isinstance(jogador, Jogador):
@@ -174,10 +174,10 @@ class NaveComum(Nave, pygame.sprite.Sprite):
 class Kamikaze(Nave, pygame.sprite.Sprite):
     def __init__(self, largura):
         super().__init__(largura)
-        self.image = pygame.transform.scale(pygame.image.load("kamikaze_nave.png"), (70, 70))
+        self.image = pygame.transform.scale(pygame.image.load("Imagens/kamikaze_nave.png"), (70, 70))
         self.__maxiposi = self.posicoesx[random.randint(0, len(self.posicoesx) - 1)]
         self.recompensa = 50
-        self.imagem_explosao = pygame.transform.scale(pygame.image.load('explosao_kamikaze.png'), (60, 60))
+        self.imagem_explosao = pygame.transform.scale(pygame.image.load('Imagens/explosao_kamikaze.png'), (60, 60))
         self.dano_colisao = 20
     
     @property
@@ -218,7 +218,7 @@ class Kamikaze(Nave, pygame.sprite.Sprite):
 class Meteoro(Inimigo, pygame.sprite.Sprite):
     def __init__(self):
         super().__init__()
-        self.image = pygame.transform.scale(pygame.image.load("meteoro.png"), (50, 60))
+        self.image = pygame.transform.scale(pygame.image.load("Imagens/meteoro.png"), (50, 60))
         self.recompensa = 30
         self.rect.x = self.posicoesx[random.randint(0, len(self.posicoesx) - 1)]
         self.rect.y = random.randint(-500, -10)
