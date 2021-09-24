@@ -6,7 +6,7 @@ class TelaJogo:
         self.__largura = 800
         self.__altura = 600
         self.__janela = pygame.display.set_mode((self.__largura, self.__altura))
-        self.fundo_tela = pygame.transform.scale(pygame.image.load('space_background.jpg'), (self.__largura, self.__altura))
+        self.fundo_tela = pygame.transform.scale(pygame.image.load('Imagens/space_background.jpg'), (self.__largura, self.__altura))
 
     @property
     def altura(self):
