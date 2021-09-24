@@ -83,6 +83,10 @@ class Inimigo(pygame.sprite.Sprite, ABC):
     @property
     def recompensa(self):
         return self.__recompensa
+    
+    @recompensa.setter
+    def recompensa(self, recompensa: int):
+        self.__recompensa = recompensa
 
     @abstractmethod
     def movimento(self):
