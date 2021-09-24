@@ -40,7 +40,6 @@ class Loja:
 
         loja = True
         self.__view_loja.saldo_insuficiente = False
-        self.__view_loja.compra_maxima = False
 
         while loja:
             for event in pygame.event.get():
@@ -51,6 +50,7 @@ class Loja:
                         if event.ui_element == self.__view_loja.botao_dano:
                             if controlador_dinheiro.dinheiro >= self.__custo_dano:
                                 if self.__maximo_compra_dano >= self.__compra_dano:
+                                    self.__view_loja.compra_maxima = False
                                     self.__compra_dano += 1
                                     self.aumentar_dano(controlador_dinheiro)
                                 else:
@@ -60,6 +60,7 @@ class Loja:
                         elif event.ui_element == self.__view_loja.botao_velocidade:
                             if controlador_dinheiro.dinheiro >= self.__custo_velocidade:
                                 if self.__maximo_compra_velocidade >= self.__compra_velocidade:
+                                    self.__view_loja.compra_maxima = False
                                     self.__compra_velocidade += 1
                                     self.aumentar_velocidade(controlador_dinheiro)
                                 else:
@@ -67,13 +68,14 @@ class Loja:
                             else:
                                 self.__view_loja.saldo_insuficiente = True
                         elif event.ui_element == self.__view_loja.botao_vida:
+                            self.__view_loja.compra_maxima = False
                             if controlador_dinheiro.dinheiro >= self.__custo_escudo:
                                 self.comprar_escudo(controlador_dinheiro)
                             else:
                                 self.__view_loja.saldo_insuficiente = True
                         elif event.ui_element == self.__view_loja.botao_continuar:
                             LojaDAO().salvar_variaveis(self.__compra_dano, self.__compra_velocidade)
-                            pygame.mixer.music.unpause()
+                            efeitos_sonoros.despausar_musica()
                             loja = False
 
                 self.__view_loja.ler_evento(event)
