@@ -11,7 +11,7 @@ class Jogador(pygame.sprite.Sprite):
         super().__init__()
         self.__atributos_dao = AtributosDAO()
         self.__posicao = (TelaJogo().largura/2, TelaJogo().altura)
-        self.image = pygame.transform.scale(pygame.image.load('Ship_Player_PNG_01.png'), (60,60))
+        self.image = pygame.transform.scale(pygame.image.load('Imagens/Ship_Player_PNG_01.png'), (60,60))
         self.mask = pygame.mask.from_surface(self.image)
         self.rect = self.image.get_rect(midbottom = self.__posicao)
         self.__velocidade = self.__atributos_dao.get('velocidade')
