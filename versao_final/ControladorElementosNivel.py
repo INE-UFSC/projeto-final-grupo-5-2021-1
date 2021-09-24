@@ -51,7 +51,7 @@ class ControladorElementosNivel:
                 inimigo_acertado.vida -= sprites.jogador.sprite.dano
                 if 0 >= inimigo_acertado.vida:
                    self.__controle_dinheiro.dinheiro = inimigo_acertado.recompensa
-                    sprites.inimigos.remove(inimigo_acertado)
+                   sprites.inimigos.remove(inimigo_acertado)
 
             for inimigo_colidido in jogador.colisao(sprites.jogador, sprites.inimigos).values():
                 efeito_sonoro.tocar_som(efeito_sonoro.som_explosao)
