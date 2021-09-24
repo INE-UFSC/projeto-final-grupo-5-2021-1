@@ -64,7 +64,7 @@ class ControladorEstadoNivel(pygame.sprite.Sprite):
 
             pygame.display.update()
 
-    def pausar(self, configuracoes: Configuracoes, efeito_sonoro: EfeitosSonoros, controle: ControladorElementosNivel, jogador: Jogador, sprite: Sprites):
+    def pausar(self, configuracoes: Configuracoes, efeito_sonoro: EfeitosSonoros, controle: ControladorElementosNivel, jogador: Jogador):
         efeito_sonoro.pausar_musica()
    
         pausado = True
