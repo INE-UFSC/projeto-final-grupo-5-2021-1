@@ -1,4 +1,4 @@
-from View import View
+from Views.View import View
 import pygame
 import pygame_gui
 
