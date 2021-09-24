@@ -77,14 +77,13 @@ class ControladorElementosNivel:
                     novo_inimigo = Meteoro()
                 sprites.inimigos.add(novo_inimigo)
                 
-    def explosao(self, tela: TelaJogo):
-        if isinstance(tela, TelaJogo):
-            if self.__explodir:
-                tela.blit(self.__imagem_explosao, (self.__posicaox, self.__posicaoy))
-                self.__tempo += 1
-            if self.__tempo >= 15:
-                self.__explodir = False
-                self.__tempo = 0
+    def explosao(self, tela):
+        if self.__explodir:
+            tela.blit(self.__imagem_explosao, (self.__posicaox, self.__posicaoy))
+            self.__tempo += 1
+        if self.__tempo >= 15:
+            self.__explodir = False
+            self.__tempo = 0
 
     def comportamento_inimigos(self, tela: TelaJogo, jogador: Jogador, FPS: int):
         if isinstance(tela, TelaJogo) and isinstance(jogador, Jogador):
