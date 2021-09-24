@@ -2,6 +2,7 @@ import pygame
 from Tiro import Tiro
 from VariaveisDao import VariaveisDAO
 from TelaJogo import TelaJogo
+from EfeitosSonoros import EfeitosSonoros
 from Sprites import *
 
 
@@ -22,8 +23,6 @@ class Jogador(pygame.sprite.Sprite):
         self.tiros = Sprites().tiros
         self.__vida = self.__variaveis.get('vida')
         self.__dano = self.__variaveis.get('dano')
-        self.__meteoros_destruidos = []
-        self.__naves_destruidas = 0
         sprites.jogador.add(self)
 
     @property
@@ -50,22 +49,6 @@ class Jogador(pygame.sprite.Sprite):
     def velocidade(self, velocidade):
         self.__velocidade = velocidade
 
-    @property 
-    def meteoros_destruidos(self):
-        return self.__meteoros_destruidos
-    
-    @meteoros_destruidos.setter
-    def meteoros_destruidos(self, meteoros):
-        self.__meteoros_destruidos = meteoros
-
-    @property
-    def naves_destruidas(self):
-        return self.__naves_destruidas
-    
-    @naves_destruidas.setter
-    def naves_destruidas(self, naves):
-        self.__naves_destruidas = naves
-
     @property
     def vida(self):
         return self.__vida
@@ -73,10 +56,6 @@ class Jogador(pygame.sprite.Sprite):
     @vida.setter
     def vida(self, vida):
         self.__vida = vida
-
-    def poder_de_compra(self):
-        pontos = (self.__naves_destruidas * 10) + sum(self.__meteoros_destruidos)
-        return pontos
     
     def atributos_iniciais(self):
         self.__vida = 100
@@ -86,7 +65,7 @@ class Jogador(pygame.sprite.Sprite):
     def posicao_inicial(self):
         self.rect = self.image.get_rect(midbottom = self.__posicao)
 
-    def get_input(self):
+    def get_input(self, efeito_sonoro: EfeitosSonoros):
         keys = pygame.key.get_pressed()
         if keys[pygame.K_d]:
             self.rect.x += self.__velocidade
@@ -97,9 +76,9 @@ class Jogador(pygame.sprite.Sprite):
         if keys[pygame.K_s]:
             self.rect.y += self.__velocidade
 
-        #tiro
         if keys[pygame.K_SPACE] and self.__tiro_pronto:
-            pygame.mixer.Sound("ataque.wav").play()
+            if isinstance(efeito_sonoro, EfeitosSonoros):
+                efeito_sonoro.tocar_som(efeito_sonoro.som_disparo)
             self.atirar()
             self.__tiro_pronto = False
             self.__tiro_temporizador = pygame.time.get_ticks()
@@ -128,8 +107,9 @@ class Jogador(pygame.sprite.Sprite):
     def colisao(self, grupo1, grupo2):
         return pygame.sprite.groupcollide(grupo1, grupo2, False, True, pygame.sprite.collide_mask)
 
-    def update(self):
-        self.get_input()
+    def update(self, efeito_sonoro: EfeitosSonoros):
+        if isinstance(efeito_sonoro, EfeitosSonoros):
+            self.get_input(efeito_sonoro)
         self.limite_x()
         self.limite_y()
         self.recarregar()
