@@ -33,17 +33,6 @@ class Jogo:
         self.loja = Loja(self.jogador)
         self.configuracoes = Configuracoes()
         self.efeitos_sonoros = EfeitosSonoros()
-
-    def elementos_tela(self):
-        self.tela.mostrar_fundo()
-        self.hud.mostrar_nivel(self.controle_elementos.nivel)
-        self.hud.mostrar_vida(self.jogador)
-        self.hud.mostrar_inimigos_restantes(len(sprites.inimigos))
-        self.hud.mostrar_tempo(self.tempo_maximo, self.tempo_fase)
-        self.hud.mostrar_dinheiro_jogador(self.controle_dinheiro.dinheiro)
-
-        sprites.jogador.draw(surface=self.tela.janela)
-        sprites.jogador.sprite.tiros.draw(self.tela.janela)
    
     def loop_jogo(self):
         MenuJogo().menu(self.configuracoes, self.efeitos_sonoros, self.controle_elementos, self.jogador, self.loja, self.controle_dinheiro)
@@ -58,7 +47,7 @@ class Jogo:
    
         while True:
             self.tempo.tick(self.FPS)
-            self.elementos_tela()
+            self.controle_elementos.elementos_tela(self.tela, self.hud, self.jogador, self.controle_dinheiro, self.tempo_maximo - self.tempo_fase, self.FPS)
             self.controle_elementos.explosao(self.tela.janela)
             sprites.jogador.update(self.efeitos_sonoros)
 
@@ -71,7 +60,7 @@ class Jogo:
                     sys.exit()
 
             self.controle_elementos.geracao_inimigos(self.tela.largura)
-            self.controle_elementos.comportamento_inimigos(self.tela, self.jogador, self.FPS)
+            self.controle_elementos.comportamento_inimigos(self.tela)
             self.controle_elementos.colisoes(self.jogador, self.efeitos_sonoros)
             self.tempo_fase += 1 / self.FPS
             self.controle_dinheiro.gerar_recompensa()
