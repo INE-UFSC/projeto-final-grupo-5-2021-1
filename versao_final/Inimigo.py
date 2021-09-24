@@ -4,6 +4,7 @@ from abc import ABC, abstractmethod
 import random
 from Tiro import Tiro
 from Sprites import Sprites
+from TelaJogo import TelaJogo
 
 
 class Inimigo(pygame.sprite.Sprite, ABC):
@@ -129,17 +130,18 @@ class Nave(Inimigo, pygame.sprite.Sprite, ABC):
             self.tiros.add(Tiro(self.rect.center, 6, janela))
             self.__tiro_temporizador = 0
 
-    def movimento(self):
-        if self.__direcao == 0:
-            if self.rect.x < tela_jogo.largura - 50:
-                self.rect.x += self.velocidade
+    def movimento(self, tela_jogo: TelaJogo):
+        if isinstance(tela_jogo, TelaJogo):
+            if self.__direcao == 0:
+                if self.rect.x < tela_jogo.largura - 50:
+                    self.rect.x += self.velocidade
+                else:
+                    self.__direcao = 1
             else:
-                self.__direcao = 1
-        else:
-            if self.rect.x > -20:
-                self.rect.x -= self.velocidade
-            else:
-                self.__direcao = 0
+                if self.rect.x > -20:
+                    self.rect.x -= self.velocidade
+                else:
+                    self.__direcao = 0
 
     @abstractmethod
     def explodir(self):
