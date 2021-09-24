@@ -1,12 +1,12 @@
 from Entidades.JogadorNave import Jogador
 from Persistencia.AtributosDao import AtributosDAO
-from TelaJogo import TelaJogo
+from Componentes.TelaJogo import TelaJogo
 from Entidades.Inimigo import *
-from Sprites import *
+from Componentes.Sprites import *
 import random
 from Controladores.ControladorDinheiro import ControladorDinheiro
-from EfeitosSonoros import EfeitosSonoros
-from HUD import HUD
+from Componentes.EfeitosSonoros import EfeitosSonoros
+from Componentes.HUD import HUD
 
 
 class ControladorElementosNivel:
