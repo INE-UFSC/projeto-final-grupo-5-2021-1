@@ -20,9 +20,12 @@ class HUD(pygame.sprite.Sprite):
             return self.__tela.janela.blit(vida_display, (0, 10))
 
     def mostrar_tempo(self, tempo: int):
-        tempo_display = self.__fonte_letreiros.render("Tempo: " + str(int(tempo)), True,
-                                                      (255, 255, 255))
-        return self.__tela.janela.blit(tempo_display, (100, 10))
+        try:
+            tempo_display = self.__fonte_letreiros.render("Tempo: " + str(int(tempo)), True,
+                                                          (255, 255, 255))
+            return self.__tela.janela.blit(tempo_display, (100, 10))
+        except ValueError:
+            print('Tem que ser um número!')
 
     def mostrar_inimigos_restantes(self, qtd_inimigos: str):
         inimigos_display = self.__fonte_letreiros.render("Inimigos: " + str(qtd_inimigos), True, (255, 255, 255))
