@@ -192,41 +192,35 @@ class Kamikaze(Nave, pygame.sprite.Sprite):
             else:
                 jogador.rect.y += 100
 
-    def movimento(self, inimigos: Inimigo, altura: int):
-        if isinstance(inimigos, Inimigo):
-            if self.direcao == 0:
-                if self.rect.x >= self.__maxiposi:
-                    if self.rect.y <= altura:
-                        self.rect.y += self.velocidade
-                    else:
-                        inimigos.remove(self)
+    def movimento(self, inimigos, altura: int):
+        if self.direcao == 0:
+            if self.rect.x >= self.__maxiposi:
+                if self.rect.y <= altura:
+                    self.rect.y += self.velocidade
                 else:
-                    self.rect.x += self.velocidade
+                    inimigos.remove(self)
             else:
-                if self.rect.x <= self.__maxiposi:
-                    if self.rect.y <= altura:
-                        self.rect.y += self.velocidade
-                    else:
-                        inimigos.remove(self)
+                self.rect.x += self.velocidade
+        else:
+            if self.rect.x <= self.__maxiposi:
+                if self.rect.y <= altura:
+                    self.rect.y += self.velocidade
                 else:
-                    self.rect.x -= self.velocidade
+                    inimigos.remove(self)
+            else:
+                self.rect.x -= self.velocidade
 
 
 class Meteoro(Inimigo, pygame.sprite.Sprite):
     def __init__(self):
         super().__init__()
         self.image = pygame.transform.scale(pygame.image.load("meteoro.png"), (50, 60))
-        self.__recompensa = 30
+        self.recompensa = 30
         self.rect.x = self.posicoesx[random.randint(0, len(self.posicoesx) - 1)]
         self.rect.y = random.randint(-500, -10)
 
-    @property
-    def recompensa(self):
-        return self.__recompensa
-
-    def movimento(self, inimigos: Inimigos, altura: int):
-        if isinstance(inimigos, Inimigo):
-            if self.rect.y < altura + 10:
-                self.rect.y += self.velocidade
-            else:
-                inimigos.remove(self)
+    def movimento(self, inimigos, altura: int):
+        if self.rect.y < altura + 10:
+            self.rect.y += self.velocidade
+        else:
+            inimigos.remove(self)
