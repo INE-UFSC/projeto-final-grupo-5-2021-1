@@ -1,5 +1,6 @@
 from JogadorNave import Jogador
-from AtributoDao import AtributoDAO
+from AtributosDao import AtributosDAO
+from TelaJogo import TelaJogo
 from Inimigo import *
 from Sprites import *
 import random
@@ -7,9 +8,9 @@ from ControladorDinheiro import ControladorDinheiro
 
 
 class ControladorElementosNivel:
-    def __init__(self, atributos: atributosDAO, dinheiro: ControladorDinheiro):
-        if isinstance(atributos, atributosDAO):
-            self.__nivel = variavel.get('nivel')
+    def __init__(self, atributos: AtributosDAO, dinheiro: ControladorDinheiro):
+        if isinstance(atributos, AtributosDAO):
+            self.__nivel = atributos.get('nivel')
         if isinstance(dinheiro, ControladorDinheiro):
             self.__controle_dinheiro = dinheiro
         self.tempo_fase = 0
@@ -43,23 +44,24 @@ class ControladorElementosNivel:
     def tempo(self, tempo):
         self.__tempo = tempo
 
-    def colisoes(self, jogador: Jogador):
-        for inimigo_acertado in jogador.colisao(sprites.inimigos, jogador.tiros):
-            inimigo_acertado.vida -= sprites.jogador.sprite.dano
-            if 0 >= inimigo_acertado.vida:
-                ControladorDinheiro.dinheiro = inimigo_acertado.recompensa
-                sprites.inimigos.remove(inimigo_acertado)
+    def colisoes(self, jogador: Jogador, efeito_sonoro: EfeitosSonoros):
+        if isinstance(jogador, Jogador) and isinstance(efeito_sonoro, EfeitosSonoros):
+            for inimigo_acertado in jogador.colisao(sprites.inimigos, jogador.tiros):
+                inimigo_acertado.vida -= sprites.jogador.sprite.dano
+                if 0 >= inimigo_acertado.vida:
+                    ControladorDinheiro.dinheiro = inimigo_acertado.recompensa
+                    sprites.inimigos.remove(inimigo_acertado)
 
-        for inimigo_colidido in jogador.colisao(sprites.jogador, sprites.inimigos).values():
-            efeito_sonoro.tocar_som(efeito_sonoro.som_explosao)
-            if isinstance(inimigo_colidido[0], Nave):
-                self.__explodir = True
-                self.__imagem_explosao = inimigo_colidido[0].imagem_explosao
-                self.__posicaox = inimigo_colidido[0].rect.x
-                self.__posicaoy = inimigo_colidido[0].rect.y
-                inimigo_colidido[0].explodir(jogador)
-            else:
-                jogador.vida -= inimigo_colidido[0].dano_colisao
+            for inimigo_colidido in jogador.colisao(sprites.jogador, sprites.inimigos).values():
+                efeito_sonoro.tocar_som(efeito_sonoro.som_explosao)
+                if isinstance(inimigo_colidido[0], Nave):
+                    self.__explodir = True
+                    self.__imagem_explosao = inimigo_colidido[0].imagem_explosao
+                    self.__posicaox = inimigo_colidido[0].rect.x
+                    self.__posicaoy = inimigo_colidido[0].rect.y
+                    inimigo_colidido[0].explodir(jogador)
+                else:
+                    jogador.vida -= inimigo_colidido[0].dano_colisao
 
     def geracao_inimigos(self, largura_tela: int):
         if len(sprites.inimigos) == 0:
