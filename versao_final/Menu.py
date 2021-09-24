@@ -1,4 +1,4 @@
-from VariaveisDao import VariaveisDAO
+from AtributosDao import AtributosDAO
 from Loja import Loja
 from ControladorDinheiro import ControladorDinheiro
 from JogadorNave import Jogador
@@ -21,7 +21,7 @@ class MenuJogo(pygame.sprite.Sprite):
         self.__view_menu = MenuView()
     
     def menu(self, configuracoes: Configuracoes, efeitos_sonoros: EfeitosSonoros, controle: ControladorElementosNivel, jogador: Jogador, loja: Loja, dinheiro: ControladorDinheiro):
-        if isinstance(configuracoes, Configuracoes) and isinstance(efeitos_sonoros, EfeitosSonoros) and isinstance(controle, ControladorElementosNivel)
+        if isinstance(configuracoes, Configuracoes) and isinstance(efeitos_sonoros, EfeitosSonoros) and isinstance(controle, ControladorElementosNivel) \
             and isinstance(jogador, Jogador) and isinstance(loja, Loja) and isinstance(dinheiro, ControladorDinheiro):
             while self.is_on_menu:
                 for event in pygame.event.get():
@@ -32,7 +32,7 @@ class MenuJogo(pygame.sprite.Sprite):
                             if event.ui_element == self.__view_menu.botao_iniciar:
                                 self.is_on_menu = False
                                 ControladorMenu().recomecar(controle, jogador, loja, dinheiro)
-                                VariaveisDAO().resetar_variaveis()
+                                AtributosDAO().resetar_variaveis()
                             elif event.ui_element == self.__view_menu.botao_continuar:
                                 self.is_on_menu = False
                             elif event.ui_element == self.__view_menu.botao_configurar:
