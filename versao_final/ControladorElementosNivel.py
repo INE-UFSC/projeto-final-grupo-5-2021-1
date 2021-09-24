@@ -86,21 +86,20 @@ class ControladorElementosNivel:
                 self.__explodir = False
                 self.__tempo = 0
 
-    def comportamento_inimigos(self, janela, altura_janela: int, jogador: Jogador, FPS: int):
-        for inimigo in sprites.inimigos:
-            inimigo.geracao(janela)
-            if isinstance(inimigo, Meteoro):
-                inimigo.movimento(sprites.inimigos, altura_janela)
-            else:
-                inimigo.tiro_temporizador += 1 / FPS
-                if isinstance(inimigo, Kamikaze):
-                    inimigo.movimento(sprites.inimigos, altura_janela)
+    def comportamento_inimigos(self, tela: TelaJogo, jogador: Jogador, FPS: int):
+        if isinstance(tela, TelaJogo) and isinstance(jogador, Jogador):
+            for inimigo in sprites.inimigos:
+                inimigo.geracao(tela.janela)
+                if isinstance(inimigo, Meteoro):
+                    inimigo.movimento(sprites.inimigos, tela.altura)
                 else:
-                    inimigo.movimento()
-                inimigo.disparar(altura_janela)
-                inimigo.tiros.draw(janela)
-                inimigo.tiros.update()
-                if jogador.colisao(sprites.jogador, inimigo.tiros):
-                    sprites.jogador.sprite.vida -= inimigo.dano
-        # Vale a pena replicar repetir uma parte do código p/ deixar draw em elementos_tela e a colisão dos tiros em colisoes?
-        # por questão de organização faria sentido, mas podemos deixar isso para o momento de refinar o código
+                    inimigo.tiro_temporizador += 1 / FPS
+                    if isinstance(inimigo, Kamikaze):
+                        inimigo.movimento(sprites.inimigos, tela.altura)
+                    else:
+                        inimigo.movimento(tela)
+                    inimigo.disparar(tela.altura)
+                    inimigo.tiros.draw(tela.janela)
+                    inimigo.tiros.update()
+                    if jogador.colisao(sprites.jogador, inimigo.tiros):
+                        sprites.jogador.sprite.vida -= inimigo.dano
