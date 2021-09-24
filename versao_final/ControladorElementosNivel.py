@@ -84,6 +84,12 @@ class ControladorElementosNivel:
                     inimigo_colidido[0].explodir(jogador)
                 else:
                     jogador.vida -= inimigo_colidido[0].dano_colisao
+                    
+            for inimigo in sprites.inimigos:
+                if isinstance(inimigo, Nave):
+                    if jogador.colisao(sprites.jogador, inimigo.tiros):
+                        sprites.jogador.sprite.vida -= inimigo.dano
+
 
     def geracao_inimigos(self, largura_tela: int):
         if len(sprites.inimigos) == 0:
