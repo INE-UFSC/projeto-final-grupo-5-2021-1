@@ -37,7 +37,7 @@ class MenuJogo(pygame.sprite.Sprite):
                                 self.is_on_menu = False
                             elif event.ui_element == self.__view_menu.botao_configurar:
                                 try:
-                                    configuracoes.configuracao()
+                                    configuracoes.configuracao(efeitos_sonoros)
                                 except AttributeError:
                                     print('Não possui esse método')
                             elif event.ui_element == self.__view_menu.botao_sair:
