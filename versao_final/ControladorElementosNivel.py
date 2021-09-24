@@ -44,6 +44,26 @@ class ControladorElementosNivel:
     @tempo.setter
     def tempo(self, tempo):
         self.__tempo = tempo
+        
+    def elementos_tela(self, tela: TelaJogo, hud: HUD, jogador: Jogador, dinheiro: ControladorDinheiro, tempo: int, FPS: int):
+        if isinstance(tela, TelaJogo) and isinstance(hud, HUD) and isinstance(jogador, Jogador) and isinstance(dinheiro, ControladorDinheiro):
+            tela.mostrar_fundo()
+            hud.mostrar_nivel(self.nivel)
+            hud.mostrar_vida(jogador)
+            hud.mostrar_inimigos_restantes(len(sprites.inimigos))
+            hud.mostrar_tempo(tempo)
+            hud.mostrar_dinheiro_jogador(dinheiro.dinheiro)
+
+            for inimigo in sprites.inimigos:
+                inimigo.geracao(tela.janela)
+                if isinstance(inimigo, Nave):
+                    inimigo.tiro_temporizador += 1 / FPS
+                    inimigo.disparar(tela.altura)
+                    inimigo.tiros.draw(tela.janela)
+                    inimigo.tiros.update()
+
+        sprites.jogador.draw(surface=tela.janela)
+        sprites.jogador.sprite.tiros.draw(tela.janela)
 
     def colisoes(self, jogador: Jogador, efeito_sonoro: EfeitosSonoros):
         if isinstance(jogador, Jogador) and isinstance(efeito_sonoro, EfeitosSonoros):
@@ -86,20 +106,10 @@ class ControladorElementosNivel:
             self.__explodir = False
             self.__tempo = 0
 
-    def comportamento_inimigos(self, tela: TelaJogo, jogador: Jogador, FPS: int):
-        if isinstance(tela, TelaJogo) and isinstance(jogador, Jogador):
+    def comportamento_inimigos(self, tela: TelaJogo):
+        if isinstance(tela, TelaJogo):
             for inimigo in sprites.inimigos:
-                inimigo.geracao(tela.janela)
-                if isinstance(inimigo, Meteoro):
-                    inimigo.movimento(sprites.inimigos, tela.altura)
+                if isinstance(inimigo, NaveComum):
+                    inimigo.movimento(tela)
                 else:
-                    inimigo.tiro_temporizador += 1 / FPS
-                    if isinstance(inimigo, Kamikaze):
-                        inimigo.movimento(sprites.inimigos, tela.altura)
-                    else:
-                        inimigo.movimento(tela)
-                    inimigo.disparar(tela.altura)
-                    inimigo.tiros.draw(tela.janela)
-                    inimigo.tiros.update()
-                    if jogador.colisao(sprites.jogador, inimigo.tiros):
-                        sprites.jogador.sprite.vida -= inimigo.dano
+                    inimigo.movimento(sprites.inimigos, tela.altura)
