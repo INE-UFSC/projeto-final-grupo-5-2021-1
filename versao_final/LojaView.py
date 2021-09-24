@@ -61,7 +61,7 @@ class InterfaceLoja(View):
         fonte_mensagem = pygame.font.SysFont('comicssans', 40)
    
         mensagem_fundos_insuficientes = fonte_mensagem.render('Você não possui dinheiro suficiente!', True, (255,0,0))
-        self.__tela.janela.blit(mensagem_fundos_insuficientes, (self.posicao_botao[0] + 30, self.tela.altura - 50))
+        self.tela.janela.blit(mensagem_fundos_insuficientes, (self.posicao_botao[0] + 30, self.tela.altura - 50))
         
     def mensagem_maximo_compra(self):
         fonte_mensagem = pygame.font.SysFont('comicssans', 40)
@@ -76,7 +76,7 @@ class InterfaceLoja(View):
         loja = fonte_mensagem.render("Loja", True, (255,255,255))
         self.tela.janela.blit(loja, (self.tela.largura / 3 + 70, 20))
 
-        valor_dinheiro = fonte_atributos.render("Dinheiro: " + str(dinheiro), True, (255,255,255))
+        valor_dinheiro = fonte_atributos.render("Dinheiro: $" + str(dinheiro), True, (255,255,255))
         self.tela.janela.blit(valor_dinheiro, (10, 90))
 
         valor_dano = fonte_atributos.render("Dano: " + str(jogador.dano), True, (255,255,255))
@@ -91,6 +91,6 @@ class InterfaceLoja(View):
     def window(self, dinheiro: int, jogador: Jogador):
         super().window(dinheiro, jogador)
         if self.__saldo_insuficiente:
-            self.mensagem_fundos_insuficientes()
+            self.fundos_insuficientes()
         elif self.__compra_maxima:
             self.mensagem_maximo_compra()
