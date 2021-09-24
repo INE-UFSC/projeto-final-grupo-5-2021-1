@@ -1,20 +1,23 @@
 from JogadorNave import Jogador
-from VariaveisDao import VariaveisDAO
+from AtributoDao import AtributoDAO
 from Inimigo import *
 from Sprites import *
 import random
-from Inimigo import Inimigo, Kamikaze, Meteoro, NaveComum
 from ControladorDinheiro import ControladorDinheiro
 
 
-class ControladorElementosNivel():
-    def __init__(self, variavel: VariaveisDAO):
-        if isinstance(variavel, VariaveisDAO):
+class ControladorElementosNivel:
+    def __init__(self, atributos: atributosDAO, dinheiro: ControladorDinheiro):
+        if isinstance(atributos, atributosDAO):
             self.__nivel = variavel.get('nivel')
+        if isinstance(dinheiro, ControladorDinheiro):
+            self.__controle_dinheiro = dinheiro
         self.tempo_fase = 0
-        self.__nave_comum = NaveComum(10)
-        self.__kamikaze = Kamikaze(10)
-        self.__meteoror = Meteoro()
+        self.__explodir = False
+        self.__tempo = 0
+        self.__posicaox = 0
+        self.__posicaoy = 0
+        self.__imagem_explosao = None
 
     @property
     def nivel(self):
@@ -23,22 +26,42 @@ class ControladorElementosNivel():
     @nivel.setter
     def nivel(self, nivel):
         self.__nivel = nivel
+        
+    @property
+    def explodir(self):
+        return self.__explodir
+
+    @explodir.setter
+    def explodir(self, explodir):
+        self.__explodir = explodir
+
+    @property
+    def tempo(self):
+        return self.__tempo
+
+    @tempo.setter
+    def tempo(self, tempo):
+        self.__tempo = tempo
 
     def colisoes(self, jogador: Jogador):
         for inimigo_acertado in jogador.colisao(sprites.inimigos, jogador.tiros):
             inimigo_acertado.vida -= sprites.jogador.sprite.dano
-            if 0>= inimigo_acertado.vida:
+            if 0 >= inimigo_acertado.vida:
                 ControladorDinheiro.dinheiro = inimigo_acertado.recompensa
                 sprites.inimigos.remove(inimigo_acertado)
 
         for inimigo_colidido in jogador.colisao(sprites.jogador, sprites.inimigos).values():
-            if isinstance(inimigo_colidido[0], Kamikaze):
+            efeito_sonoro.tocar_som(efeito_sonoro.som_explosao)
+            if isinstance(inimigo_colidido[0], Nave):
+                self.__explodir = True
+                self.__imagem_explosao = inimigo_colidido[0].imagem_explosao
+                self.__posicaox = inimigo_colidido[0].rect.x
+                self.__posicaoy = inimigo_colidido[0].rect.y
                 inimigo_colidido[0].explodir(jogador)
-                jogador.vida -= inimigo_colidido[0].dano_explosao
-            elif isinstance(inimigo_colidido[0], NaveComum) or isinstance(inimigo_colidido[0], Meteoro):
-                jogador.vida -= inimigo_colidido[0].dano * 2
+            else:
+                jogador.vida -= inimigo_colidido[0].dano_colisao
 
-    def geracao_inimigos(self, largura_tela):
+    def geracao_inimigos(self, largura_tela: int):
         if len(sprites.inimigos) == 0:
             self.__nivel += 1
             self.tempo_fase = 0
@@ -51,8 +74,17 @@ class ControladorElementosNivel():
                 else:
                     novo_inimigo = Meteoro()
                 sprites.inimigos.add(novo_inimigo)
+                
+    def explosao(self, tela: TelaJogo):
+        if isinstance(tela, TelaJogo):
+            if self.__explodir:
+                tela.blit(self.__imagem_explosao, (self.__posicaox, self.__posicaoy))
+                self.__tempo += 1
+            if self.__tempo >= 15:
+                self.__explodir = False
+                self.__tempo = 0
 
-    def comportamento_inimigos(self, janela, altura_janela, jogador: Jogador, FPS):
+    def comportamento_inimigos(self, janela, altura_janela: int, jogador: Jogador, FPS: int):
         for inimigo in sprites.inimigos:
             inimigo.geracao(janela)
             if isinstance(inimigo, Meteoro):
