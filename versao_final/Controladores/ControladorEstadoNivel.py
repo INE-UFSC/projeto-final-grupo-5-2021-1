@@ -2,13 +2,13 @@ from Persistencia.AtributosDao import AtributosDAO
 from Controladores.ControladorDinheiro import ControladorDinheiro
 from Controladores.ControladorElementosNivel import ControladorElementosNivel
 from Controladores.ControladorMenu import ControladorMenu
-from Sprites import *
-from EfeitosSonoros import EfeitosSonoros
-from Configuracoes import Configuracoes
+from Componentes.Sprites import *
+from Componentes.EfeitosSonoros import EfeitosSonoros
+from LogicaInterface.Configuracoes import Configuracoes
 from Persistencia.LojaDao import LojaDAO
-from Loja import Loja
+from LogicaInterface.Loja import Loja
 from Persistencia.AtributosDao import AtributosDAO
-from TelaJogo import TelaJogo
+from Componentes.TelaJogo import TelaJogo
 from Entidades.JogadorNave import Jogador
 import pygame
 from pygame.locals import *
