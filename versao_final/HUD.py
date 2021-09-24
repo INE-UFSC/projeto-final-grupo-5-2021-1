@@ -29,5 +29,5 @@ class HUD(pygame.sprite.Sprite):
         return self.__tela.janela.blit(inimigos_display, (220, 10))
 
     def mostrar_dinheiro_jogador(self, dinheiro_jogador):
-        dinheiro_jogador_display = self.__fonte_letreiros.render('Dinheiro:' + str(dinheiro_jogador), True, (255,255,255))
+        dinheiro_jogador_display = self.__fonte_letreiros.render('Dinheiro: $' + str(dinheiro_jogador), True, (255,255,255))
         return self.__tela.janela.blit(dinheiro_jogador_display, (0,30))
