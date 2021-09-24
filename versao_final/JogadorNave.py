@@ -1,6 +1,6 @@
 import pygame
 from Tiro import Tiro
-from VariaveisDao import VariaveisDAO
+from AtributosDao import AtributosDAO
 from TelaJogo import TelaJogo
 from EfeitosSonoros import EfeitosSonoros
 from Sprites import *
@@ -9,20 +9,20 @@ from Sprites import *
 class Jogador(pygame.sprite.Sprite):
     def __init__(self):
         super().__init__()
-        self.__variaveis = VariaveisDAO()
+        self.__atributos_dao = AtributosDAO()
         self.__posicao = (TelaJogo().largura/2, TelaJogo().altura)
         self.image = pygame.transform.scale(pygame.image.load('Ship_Player_PNG_01.png'), (60,60))
         self.mask = pygame.mask.from_surface(self.image)
         self.rect = self.image.get_rect(midbottom = self.__posicao)
-        self.__velocidade = self.__variaveis.get('velocidade')
+        self.__velocidade = self.__atributos_dao.get('velocidade')
         self.__limite_x = TelaJogo().largura
         self.__limite_y = TelaJogo().altura
         self.__tiro_pronto = True
         self.__tiro_temporizador = 0
         self.__cooldown_tiro = 600
         self.tiros = Sprites().tiros
-        self.__vida = self.__variaveis.get('vida')
-        self.__dano = self.__variaveis.get('dano')
+        self.__vida = self.__atributos_dao.get('vida')
+        self.__dano = self.__atributos_dao.get('dano')
         sprites.jogador.add(self)
 
     @property
