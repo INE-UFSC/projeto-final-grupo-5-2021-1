@@ -1,5 +1,6 @@
 from LojaDao import LojaDAO
 from JogadorNave import Jogador
+from EfeitosSonoros import EfeitosSonoros
 from ControladorDinheiro import ControladorDinheiro
 from LojaView import InterfaceLoja
 import pygame
@@ -35,8 +36,8 @@ class Loja:
         self.__compra_dano = 0
         self.__compra_velocidade = 0
 
-    def abrir_loja(self, controlador_dinheiro: ControladorDinheiro):
-        pygame.mixer.music.pause()
+    def abrir_loja(self, controlador_dinheiro: ControladorDinheiro, efeitos_sonoros: EfeitosSonoros):
+        efeitos_sonoros.pausar_musica()
 
         loja = True
         self.__view_loja.saldo_insuficiente = False
