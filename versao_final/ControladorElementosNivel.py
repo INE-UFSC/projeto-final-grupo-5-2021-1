@@ -5,6 +5,7 @@ from Inimigo import *
 from Sprites import *
 import random
 from ControladorDinheiro import ControladorDinheiro
+from EfeitosSonoros import EfeitosSonoros
 
 
 class ControladorElementosNivel:
