@@ -12,7 +12,7 @@ class ControladorDinheiro:
 
     @dinheiro.setter
     def dinheiro(self, dinheiro):
-        self.__dinheiro_jogador += dinheiro
+        self.__dinheiro_jogador = dinheiro
 
     def zerar_dinheiro(self):
         self.__dinheiro_jogador = 0
