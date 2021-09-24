@@ -1,4 +1,5 @@
 import pickle
+from DAO import DAO
 
 
 class AtributosDAO(DAO):
