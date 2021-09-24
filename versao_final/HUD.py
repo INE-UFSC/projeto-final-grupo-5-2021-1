@@ -19,8 +19,8 @@ class HUD(pygame.sprite.Sprite):
             vida_display = self.__fonte_letreiros.render("Vida: " + str(jogador.vida), True, (255, 0, 0))
             return self.__tela.janela.blit(vida_display, (0, 10))
 
-    def mostrar_tempo(self, tempo_tela: str, contagem: int):
-        tempo_display = self.__fonte_letreiros.render("Tempo: " + str(tempo_tela - int(contagem)), True,
+    def mostrar_tempo(self, tempo: int):
+        tempo_display = self.__fonte_letreiros.render("Tempo: " + str(int(tempo)), True,
                                                       (255, 255, 255))
         return self.__tela.janela.blit(tempo_display, (100, 10))
 
