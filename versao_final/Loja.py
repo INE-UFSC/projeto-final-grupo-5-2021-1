@@ -1,4 +1,4 @@
-from VariaveisDao import VariaveisDAO
+from LojaDao import LojaDAO
 from JogadorNave import Jogador
 from ControladorDinheiro import ControladorDinheiro
 from LojaView import InterfaceLoja
