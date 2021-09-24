@@ -5,6 +5,7 @@ import random
 from Tiro import Tiro
 from Sprites import Sprites
 from TelaJogo import TelaJogo
+from JogadorNave import Jogador
 
 
 class Inimigo(pygame.sprite.Sprite, ABC):
