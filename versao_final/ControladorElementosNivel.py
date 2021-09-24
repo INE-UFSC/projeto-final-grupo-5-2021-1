@@ -6,6 +6,7 @@ from Sprites import *
 import random
 from ControladorDinheiro import ControladorDinheiro
 from EfeitosSonoros import EfeitosSonoros
+from HUD import HUD
 
 
 class ControladorElementosNivel:
