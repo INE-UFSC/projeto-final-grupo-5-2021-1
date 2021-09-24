@@ -41,6 +41,7 @@ class Loja:
 
         loja = True
         self.__view_loja.saldo_insuficiente = False
+        self.__view_loja.compra_maxima = False
 
         while loja:
             for event in pygame.event.get():
