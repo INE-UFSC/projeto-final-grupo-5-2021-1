@@ -3,9 +3,9 @@ import pygame
 
 class EfeitosSonoros:
     def __init__(self):
-        self.som_disparo = pygame.mixer.Sound("ataque.wav")
-        self.som_explosao = pygame.mixer.Sound("explosao.wav")
-        self.som_morte = pygame.mixer.Sound("morte.wav")
+        self.som_disparo = pygame.mixer.Sound("Sons/ataque.wav")
+        self.som_explosao = pygame.mixer.Sound("Sons/explosao.wav")
+        self.som_morte = pygame.mixer.Sound("Sons/morte.wav")
 
         self.__sons = [self.som_disparo, self.som_explosao, self.som_morte]
 
