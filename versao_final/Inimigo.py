@@ -175,7 +175,6 @@ class Kamikaze(Nave, pygame.sprite.Sprite):
     def __init__(self, largura):
         super().__init__(largura)
         self.image = pygame.transform.scale(pygame.image.load("kamikaze_nave.png"), (70, 70))
-        self.__dano_explosao = 20
         self.__maxiposi = self.posicoesx[random.randint(0, len(self.posicoesx) - 1)]
         self.recompensa = 50
         self.imagem_explosao = pygame.transform.scale(pygame.image.load('explosao_kamikaze.png'), (60, 60))
