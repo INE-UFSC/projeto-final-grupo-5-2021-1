@@ -1,22 +1,22 @@
-from EfeitosSonoros import EfeitosSonoros
-from Configuracoes import Configuracoes
-from AtributosDao import AtributosDAO
-from Menu import MenuJogo
-from TelaJogo import TelaJogo
-from ControladorEstadoNivel import ControladorEstadoNivel
-from ControladorElementosNivel import ControladorElementosNivel
+from Componentes.EfeitosSonoros import EfeitosSonoros
+from LogicaInterface.Configuracoes import Configuracoes
+from Persistencia.AtributosDao import AtributosDAO
+from LogicaInterface.Menu import MenuJogo
+from Componentes.TelaJogo import TelaJogo
+from Controladores.ControladorEstadoNivel import ControladorEstadoNivel
+from Controladores.ControladorElementosNivel import ControladorElementosNivel
 import pygame
 import sys
-from HUD import HUD
-from JogadorNave import Jogador
-from Sprites import *
-from ControladorDinheiro import ControladorDinheiro
-from Loja import Loja
+from Componentes.HUD import HUD
+from Entidades.JogadorNave import Jogador
+from Componentes.Sprites import *
+from Controladores.ControladorDinheiro import ControladorDinheiro
+from LogicaInterface.Loja import Loja
 
 
 pygame.init()
 pygame.display.set_caption('Space Conqueror')
-pygame.display.set_icon(pygame.transform.scale(pygame.image.load('Ship_Player_PNG_01.png'), (10,10)))
+pygame.display.set_icon(pygame.transform.scale(pygame.image.load('Imagens/Ship_Player_PNG_01.png'), (10,10)))
 
 class Jogo:
     def __init__(self):
@@ -38,7 +38,7 @@ class Jogo:
     def loop_jogo(self):
         MenuJogo().menu(self.configuracoes, self.efeitos_sonoros, self.controle_elementos, self.jogador, self.loja, self.controle_dinheiro)
 
-        self.efeitos_sonoros.carregar_musica("trilhasonora.wav")
+        self.efeitos_sonoros.carregar_musica("Sons/trilhasonora.wav")
         
         pygame.mixer.music.set_volume(self.configuracoes.volume_jogo/10)
         for som in self.efeitos_sonoros.sons:
