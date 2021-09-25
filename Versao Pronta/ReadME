@@ -1,0 +1,6 @@
+Olá! Este é o trabalho final do grupo 5 de Programação Orientada a Objetos II da UFSC.
+Para rodar o jogo, é necessário instalar os seguintes packages:
+pygame
+pygame-gui
+
+Tendo baixado todas as pastas, basta rodar o jogo clicando para o rodar o arquivo chamado "Jogo"
