@@ -1,6 +1,6 @@
 from Persistencia.LojaDao import LojaDAO
 from Entidades.JogadorNave import Jogador
-from EfeitosSonoros import EfeitosSonoros
+from Componentes.EfeitosSonoros import EfeitosSonoros
 from Controladores.ControladorDinheiro import ControladorDinheiro
 from Views.LojaView import InterfaceLoja
 import pygame
