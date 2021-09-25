@@ -1,4 +1,4 @@
-from TelaJogo import TelaJogo
+from Componentes.TelaJogo import TelaJogo
 import pygame
 from Entidades.JogadorNave import Jogador
 
