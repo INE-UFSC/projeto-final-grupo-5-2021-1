@@ -1,5 +1,5 @@
 from Views.ConfiguracaoView import ConfiguracaoView
-from EfeitosSonoros import EfeitosSonoros
+from Componentes.EfeitosSonoros import EfeitosSonoros
 import pygame
 import pygame_gui
 import sys
