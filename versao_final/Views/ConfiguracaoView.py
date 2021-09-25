@@ -23,7 +23,7 @@ class ConfiguracaoView(View):
         self.botoes = [self.__botao_diminuir, self.__botao_aumentar, self.__botao_continuar]
         self.atualizar(70)
 
-        self.__imagem_som = pygame.transform.scale(pygame.image.load('volume.png'), (150,150))
+        self.__imagem_som = pygame.transform.scale(pygame.image.load('Imagens/volume.png'), (150,150))
         self.__fonte_mensagem = pygame.font.SysFont('comicssans', 100)
         self.__fonte_volume = pygame.font.SysFont('comicssans', 250)
 
