@@ -1,12 +1,12 @@
 from Persistencia.AtributosDao import AtributosDAO
-from Loja import Loja
+from LogicaInterface.Loja import Loja
 from Controladores.ControladorDinheiro import ControladorDinheiro
 from Entidades.JogadorNave import Jogador
 from Controladores.ControladorElementosNivel import ControladorElementosNivel
 from Controladores.ControladorMenu import ControladorMenu
-from EfeitosSonoros import EfeitosSonoros
+from Componentes.EfeitosSonoros import EfeitosSonoros
 from Views.MenuView import MenuView
-from Configuracoes import Configuracoes
+from LogicaInterface.Configuracoes import Configuracoes
 import pygame
 import pygame_gui
 import sys
