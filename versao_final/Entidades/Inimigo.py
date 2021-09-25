@@ -2,10 +2,10 @@ import pygame
 from pygame.locals import *
 from abc import ABC, abstractmethod
 import random
-from Tiro import Tiro
-from Sprites import Sprites
-from TelaJogo import TelaJogo
-from JogadorNave import Jogador
+from Entidades.Tiro import Tiro
+from Componentes.Sprites import Sprites
+from Componentes.TelaJogo import TelaJogo
+from Entidades.JogadorNave import Jogador
 
 
 class Inimigo(pygame.sprite.Sprite, ABC):
