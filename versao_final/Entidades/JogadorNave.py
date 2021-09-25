@@ -1,9 +1,9 @@
 import pygame
-from Tiro import Tiro
+from Entidades.Tiro import Tiro
 from Persistencia.AtributosDao import AtributosDAO
-from TelaJogo import TelaJogo
-from EfeitosSonoros import EfeitosSonoros
-from Sprites import *
+from Componentes.TelaJogo import TelaJogo
+from Componentes.EfeitosSonoros import EfeitosSonoros
+from Componentes.Sprites import *
 
 
 class Jogador(pygame.sprite.Sprite):
