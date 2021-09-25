@@ -1,4 +1,4 @@
-from DAO import DAO
+from Persistencia.DAO import DAO
 
 
 class AtributosDAO(DAO):
