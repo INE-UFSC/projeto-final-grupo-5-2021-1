@@ -1,6 +1,6 @@
 import pygame
 import pygame_gui
-from TelaJogo import TelaJogo
+from Componentes.TelaJogo import TelaJogo
 from abc import ABC, abstractmethod
 
 
